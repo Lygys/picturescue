@@ -5,15 +5,15 @@ class User < ApplicationRecord
   has_many :posts, dependent: :destroy
   has_many :tweets, dependent: :destroy
 
-  has_many :follow_requests, dependent: :destroy
-  has_many :potential_followings, through: :follow_requests, source: :follow
-  has_many :reverse_of_follow_requests, class_name: 'FollowRequest', foreign_key: 'follow_id', dependent: :destroy
-  has_many :potential_followers, through: :reverse_of_follow_requests, source: :user
+  has_many :follow_requests
+  has_many :potential_followings, through: :follow_requests, source: :follow, dependent: :destroy
+  has_many :reverse_of_follow_requests, class_name: 'FollowRequest', foreign_key: 'follow_id'
+  has_many :potential_followers, through: :reverse_of_follow_requests, source: :user, dependent: :destroy
 
-  has_many :relationships, dependent: :destroy
-  has_many :followings, through: :relationships, source: :follow
-  has_many :reverse_of_relationships, class_name: 'Relationship', foreign_key: 'follow_id', dependent: :destroy
-  has_many :followers, through: :reverse_of_relationships, source: :user
+  has_many :relationships
+  has_many :followings, through: :relationships, source: :follow, dependent: :destroy
+  has_many :reverse_of_relationships, class_name: 'Relationship', foreign_key: 'follow_id'
+  has_many :followers, through: :reverse_of_relationships, source: :user, dependent: :destroy
 
 
   attachment :profile_image
