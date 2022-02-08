@@ -1,0 +1,27 @@
+<div class='container'>
+   <div class='row'>
+
+    <div class='col-md-9'>
+
+      <div class="my-4">
+        <%= attachment_image_tag(@post, :post_image, :fill, 800, 600) %>
+      </div>
+      <div class="mx-5 my-4">
+        <h3 class="my-4"><%= @post.title %></h3>
+    		<h5 class="mb-4">by <%= link_to @post.user.name, user_path(@post.user) %></h5>
+
+    		<p class="my-4 lead"><%= @post.body %></p>
+  		</div>
+  		<div class="my-5">
+  		  <%= link_to "See More", user_path(@post.user), class: "btn btn-primary mx-3" %>
+    		<% if @post.user_id == current_user.id %>
+    		  <%= link_to "Edit", edit_post_path(@post), class: "btn btn-success mx-3" %>
+    		  <%= link_to "Delete", post_path(@post), method: :DELETE, data: { confirm: '本当に消しますか？' }, class: "btn btn-danger mx-3" %>
+    		<% end %>
+  		</div>
+    </div>
+    <div class='col-md-3'>
+    </div>
+
+  </div>
+</div>

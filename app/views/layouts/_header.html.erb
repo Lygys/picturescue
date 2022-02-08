@@ -1,7 +1,7 @@
 <header>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-      <div class= "col-2">
+      <div class="col-2">
         <a class="navbar-brand" href="/">
           <div>ロゴを入れる</div>
         </a>
@@ -16,6 +16,7 @@
               <li><%= link_to '会員一覧', admin_users_path, class: "btn btn-light mx-2" %></li>
               <li><%= link_to 'ログアウト', destroy_admin_session_path, method: :delete, class: "btn btn-light mx-2" %></li>
             <% elsif user_signed_in? %>
+              <li><%= link_to '新規投稿', new_post_path, class: "btn btn-light mx-2" %></li>
               <li><%= link_to 'マイページ', user_path(current_user), class: "btn btn-light mx-2" %></li>
               <li><%= link_to 'ログアウト', destroy_user_session_path, method: :delete, class: "btn btn-light mx-2" %></li>
             <% else %>
