@@ -1,6 +1,11 @@
 class Public::UsersController < ApplicationController
 
 
+  def show
+    @user = User.find(params[:id])
+    @all_posts = @user.posts.all
+    @posts = @all_posts.order(created_at: :desc).page(params[:page]).per(20)
+  end
 
   private
 

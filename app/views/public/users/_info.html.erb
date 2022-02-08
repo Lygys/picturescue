@@ -1,0 +1,27 @@
+
+<table class="table mt-4">
+  <tr>
+	  <th><%= attachment_image_tag(user, :profile_image, :fill, 20, 20, fallback: "no_image.jpg") %></th>
+	  <th class="py-5"><%= user.name %></th>
+  </tr>
+  <tr>
+	  <th>total posts</th>
+	  <th><%= user.posts.count %></th>
+  </tr>
+  <tr>
+    <th>following</th>
+    <th><%= user.followings.count %></th>
+  </tr>
+  <tr>
+    <th>followers</th>
+    <th><%= user.followers.count %></th>
+  </tr>
+</table>
+
+<div>
+  <% unless current_user == user %>
+    <div class="form-group">
+      "<%= render 'relationships/follow_form', user: user %>"
+    </div>
+  <% end %>
+</div>

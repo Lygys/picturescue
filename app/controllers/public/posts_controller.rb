@@ -18,6 +18,10 @@ class Public::PostsController < ApplicationController
     @post = Post.find(params[:id])
   end
 
+  def index
+    @posts = Post.all
+  end
+
   def edit
     @post = Post.find(params[:id])
     redirect_to user_path(current_user) unless @post.user == current_user
@@ -37,9 +41,16 @@ class Public::PostsController < ApplicationController
   end
 
   def destroy
-    @book = Book.find(params[:id])
-    @book.destroy
-    redirect_to user_path(current_user)
+    @post = Post.find(params[:id])
+    if @post.user_id == current_user.id
+      if @post.destroy
+        redirect_to user_path(current_user), notice: "投稿を削除しました"
+      else
+        render "show"
+      end
+    else
+      redirect_to user_path(current_user)
+    end
   end
 
   private

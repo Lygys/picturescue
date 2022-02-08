@@ -1,1 +1,17 @@
-ユーザー詳細ページ
+<div class='container'>
+   <div class='row'>
+
+    <div class='col-lg-9'>
+      <%= render 'public/posts/index', all_posts: @all_posts, posts: @posts %>
+    </div>
+    <div class='col-lg-2 offset-lg-1'>
+      <%= render 'public/users/info', user: @user %>
+      <% if @user == current_user %>
+        <div class='row'>
+          <%= link_to '',edit_user_path(@user), class: "form-group btn btn-outline-secondary btn-block fas fa-user-cog" %>
+        </div>
+      <% end %>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,17 @@
+<div class="d-flex inline-block">
+  <h3 class="font-weight-bold">投稿一覧</h3>
+  <h5 class="pt-2">(全<%= all_posts.count %>件)</h5>
+</div>
+<div class ="d-inline-flex flex-wrap">
+  <% posts.each do |post| %>
+    <div class= "px-3 py-3">
+      <div>
+        <%= link_to post_path(post) do %>
+          <%= attachment_image_tag(post, :post_image, :fill, 180, 150) %>
+        <% end %>
+      </div>
+      <div class="font-weight-bold my-2"><%= post.title %></div>
+    </div>
+  <% end %>
+</div>
+<div class="py-2 d-flex align-items-center justify-content-center"><%= paginate posts %></div>

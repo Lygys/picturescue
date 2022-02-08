@@ -1,10 +1,8 @@
 <div class='container'>
    <div class='row'>
-
-    <div class='col-md-9'>
-
+    <div class='col-lg-9'>
       <div class="my-4">
-        <%= attachment_image_tag(@post, :post_image, :fill, 800, 600) %>
+        <%= attachment_image_tag(@post, :post_image, :fill, 750, 600) %>
       </div>
       <div class="mx-5 my-4">
         <h3 class="my-4"><%= @post.title %></h3>
@@ -20,7 +18,8 @@
     		<% end %>
   		</div>
     </div>
-    <div class='col-md-3'>
+    <div class='col-lg-2 offset-lg-1'>
+      <%= render 'public/users/info', user: @post.user %>
     </div>
 
   </div>
