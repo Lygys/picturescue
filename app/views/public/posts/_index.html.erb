@@ -15,11 +15,12 @@
       <% else %>
         <div class="d-flex justify-content-center align-items-center" style="width: 160px; height: 128px;">
           <%= link_to post_path(post) do %>
-            <h4 class="font-weight-bold"><%= post.title %></h4>
+            <h5 class="font-weight-bold"><%= post.title %></h5>
           <% end %>
         </div>
         <p class="my-2">text-only</p>
       <% end %>
+      <p class="my-2"><%= post.user.name %></p>
     </div>
   <% end %>
 </div>

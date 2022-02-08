@@ -20,7 +20,7 @@ class Public::PostsController < ApplicationController
 
   def index
     @all_posts = Post.all
-    @posts = @all_posts.order(created_at: :desc).page(params[:page]).per(30)
+    @posts = @all_posts.order(created_at: :desc).page(params[:page]).per(24)
   end
 
   def edit
