@@ -9,18 +9,18 @@ class Public::PostsController < ApplicationController
     if @post.save
       redirect_to post_path(@post), notice: "投稿が完了しました"
     else
-      @post = Post.new
       render 'new'
     end
   end
 
   def show
     @post = Post.find(params[:id])
+    @comment = Comment.new
   end
 
   def index
     @all_posts = Post.all
-    @posts = @all_posts.order(created_at: :desc).page(params[:page]).per(24)
+    @posts = @all_posts.order(created_at: :desc).page(params[:page]).per(20)
   end
 
   def edit

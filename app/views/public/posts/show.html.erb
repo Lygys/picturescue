@@ -10,13 +10,21 @@
 
     		<p class="my-4 lead"><%= @post.body %></p>
   		</div>
+
   		<div class="my-5">
   		  <%= link_to "See More", user_path(@post.user), class: "btn btn-primary mx-3" %>
     		<% if @post.user_id == current_user.id %>
     		  <%= link_to "Edit", edit_post_path(@post), class: "btn btn-success mx-3" %>
-    		  <%= link_to "Delete", post_path(@post), method: :DELETE, data: { confirm: '本当に消しますか？' }, class: "btn btn-danger mx-3" %>
+    		  <%= link_to "Delete", post_path(@post), method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-danger mx-3" %>
     		<% end %>
   		</div>
+      <p id="post-<%= @post.id %>-comments-count">コメント件数:<%= @post.comments.count %></p>
+      <table id="Comment-List" class="my-5">
+        <%= render 'public/comments/comment-list', post: @post %>
+      </table>
+
+      <%= render 'public/comments/comment-form', post: @post, comment: @comment %>
+
     </div>
     <div class='col-lg-2 offset-lg-1'>
       <%= render 'public/users/info', user: @post.user %>

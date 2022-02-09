@@ -18,7 +18,7 @@ Rails.application.routes.draw do
   get 'search' => 'searchs#search'
 
   scope module: :public do
-    resources :users, only: [:show, :edit, :update] do
+    resources :users, only: [:index, :show, :edit, :update] do
       member do
         get 'potential_followers'
         get 'followings'
