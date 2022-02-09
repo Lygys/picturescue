@@ -25,8 +25,12 @@ Rails.application.routes.draw do
         get 'followers'
       end
     end
-    resources :follow_requests, only: [:create, :destroy]
-    resources :relationships, only: [:create, :destroy]
+    resources :follow_requests, only: [:create, :destroy] do
+      delete 'reject', on: :member
+    end
+    resources :relationships, only: [:create, :destroy] do
+      delete 'block', on: :member
+    end
     resources :posts do
       resource :bookmarks, only: [:create, :destroy]
       resources :comments, only: [:create, :destroy]

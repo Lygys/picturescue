@@ -1,0 +1,52 @@
+
+<div class='container'>
+  <div class='row'>
+    <div class='col-lg-9'>
+      <h3>フォローリクエスト一覧</h3>
+      <table class='table'>
+        <thead>
+          <tr>
+            <th>image</th>
+            <th>name</th>
+            <th colspan="3"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @users.each do |user| %>
+            <tr>
+              <td><%= attachment_image_tag(user, :profile_image, :fill, 20, 20, fallback: "no_image.jpg") %></td>
+              <td><%= user.name %></td>
+              <td>
+                Following:
+                <%= link_to followings_user_path(user) do %>
+                  <%= user.followings.count %>
+                <% end %>
+              </td>
+              <td>
+                Followers:
+                <%= link_to followers_user_path(user) do %>
+                  <%= user.followers.count %>
+                <% end %>
+              </td>
+              <td>
+                <%= form_with url: relationships_path, method: :post, local: true do |f| %>
+                  <%= f.hidden_field :user_id, value: user.id %>
+                  <%= f.submit 'Accept Request', class: 'btn btn-success btn-block' %>
+                <% end %>
+              </td>
+              <td>
+                <%= form_with url: reject_follow_request_path(user), method: :delete, local: true do |f| %>
+                  <%= f.hidden_field :user_id, value: user.id %>
+                  <%= f.submit 'Reject Request', class: 'btn btn-danger btn-block' %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <div class='col-lg-2 offset-lg-1'>
+      <%= render 'public/users/info', user: current_user %>
+    </div>
+  </div>
+</div>

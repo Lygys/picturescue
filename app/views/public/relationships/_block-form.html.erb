@@ -1,0 +1,4 @@
+  <%= form_with url: block_relationship_path(user), method: :delete, data: { confirm: '本当にブロックしますか？' }, local: true do |f| %>
+    <%= f.hidden_field :user_id, value: user.id %>
+    <%= f.submit 'Block', class: 'btn btn-danger btn-block' %>
+  <% end %>

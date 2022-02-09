@@ -1,4 +1,5 @@
-  <%= form_with model: @relationship, url: relationship_path(user), method: :delete, data: { confirm: '本当にリムーブしますか？' }, local: true do |f| %>
+  <%= form_with url: relationship_path(user), method: :delete, data: { confirm: '本当にリムーブしますか？' }, local: true do |f| %>
+    <%= f.hidden_field :user_id, value: current_user.id %>
     <%= f.hidden_field :follow_id, value: user.id %>
     <%= f.submit 'Remove', class: 'btn btn-danger btn-block' %>
   <% end %>

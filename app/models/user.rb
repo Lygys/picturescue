@@ -31,7 +31,7 @@ class User < ApplicationRecord
     self.potential_followings.include?(other_user)
   end
 
-  def follow_requested?(other_user)
+  def follow_requested_by?(other_user)
     self.potential_followers.include?(other_user)
   end
 
@@ -39,7 +39,7 @@ class User < ApplicationRecord
     self.followings.include?(other_user)
   end
 
-  def followed?(other_user)
+  def followed_by?(other_user)
     self.followers.include?(other_user)
   end
 
@@ -56,17 +56,22 @@ class User < ApplicationRecord
 
   def accept_follow_request(other_user)
     unless self == other_user
-      other_user.relationships.find_or_create_by(follow_id: self.id)
+      Relationship.find_or_create_by(user_id: other_user.id, follow_id: self.id)
     end
   end
 
+  def reject_follow_request(other_user)
+    follow_request = FollowRequest.find_or_create_by(user_id: other_user.id, follow_id: self.id)
+    follow_request.destroy if follow_request
+  end
+
   def block(other_user)
-    relationship = other_user.relationships.find_by(follow_id: self.id)
+    relationship = Relationship.find_by(user_id: other_user.id, follow_id: self.id)
     relationship.destroy if relationship
   end
 
   def remove(other_user)
-    relationship = self.relationships.find_by(follow_id: other_user.id)
+    relationship = Relationship.find_by(user_id: self.id, follow_id: other_user.id)
     relationship.destroy if relationship
   end
 end

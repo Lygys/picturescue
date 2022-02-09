@@ -16,8 +16,15 @@
     <th>followers</th>
     <th><%= user.followers.count %></th>
   </tr>
+  <% if user == current_user %>
+    <tr>
+      <th>follow request</th>
+      <th><%= link_to user.potential_followers.count, potential_followers_user_path(user) %></th>
+    </tr>
+  <% end %>
 </table>
 
 <div>
+
 
 </div>

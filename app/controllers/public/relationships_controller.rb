@@ -2,8 +2,8 @@ class Public::RelationshipsController < ApplicationController
 
 
   def create
-    @user = User.find(params[:follow_request][:user_id])
-    following = accept_follow_request(@user) if follow_requested?(@user)
+    @user = User.find(params[:user_id])
+    following = current_user.accept_follow_request(@user)
     if following.save
       @user.remove_follow_request(current_user)
       redirect_to request.referer, notice: "あなたのフォロワーへ追加されました"
@@ -14,7 +14,7 @@ class Public::RelationshipsController < ApplicationController
   end
 
   def destroy
-    @user = User.find(params[:relationship][:follow_id])
+    @user = User.find(params[:follow_id])
     following = current_user.remove(@user)
     if following.destroy
       redirect_to request.referer, notice: "フォローを解除しました"
@@ -25,7 +25,7 @@ class Public::RelationshipsController < ApplicationController
   end
 
   def block
-    @user = User.find(params[:relationship][:user_id])
+    @user = User.find(params[:user_id])
     following = current_user.block(@user)
     if following.destroy
       redirect_to request.referer, notice: "フォロワーから削除されました"
