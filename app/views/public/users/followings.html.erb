@@ -7,7 +7,7 @@
           <% @users.each do |user| %>
             <tr>
                <td style="width: 20%;">
-                <%= attachment_image_tag(user, :profile_image, :fill, 20, 20, fallback: "no_image.jpg") %>
+                <%= attachment_image_tag(user, :profile_image, :fill, 100, 100, fallback: "no_image.jpg") %>
                 <br><%= user.name %>
               </td>
               <td class="py-4 lead" style="width: 20%;">
