@@ -32,9 +32,9 @@ Rails.application.routes.draw do
       delete 'block', on: :member
     end
     resources :posts do
-      resource :bookmarks, only: [:create, :destroy]
       resources :comments, only: [:create, :destroy]
     end
+    resources :bookmarks, only: [:create, :destroy]
     resources :tweets do
       resource :favorites, only: [:create, :destroy]
     end

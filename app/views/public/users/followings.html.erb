@@ -1,0 +1,38 @@
+<div class='container'>
+  <div class='row'>
+    <div class='col-lg-9'>
+      <h3 class="mt-4"><%= @user.name %>のフォロー一覧</h3>
+      <table class='table my-4'>
+        <tbody>
+          <% @users.each do |user| %>
+            <tr>
+               <td style="width: 20%;">
+                <%= attachment_image_tag(user, :profile_image, :fill, 20, 20, fallback: "no_image.jpg") %>
+                <br><%= user.name %>
+              </td>
+              <td class="py-4 lead" style="width: 20%;">
+                Posts: <%= link_to user.posts.count, user_path(user) %>
+                <br>Following: <%= link_to user.followings.count, followings_user_path(user) %>
+                <br>Followers: <%= link_to user.followers.count, followers_user_path(user) %>
+              </td>
+             <td class="py-5" style="width: 20%;">
+                <% if user == current_user %>
+                <% elsif current_user.following?(user) %>
+                  <%= render 'public/relationships/remove-form', user: user %>
+                <% else %>
+                  <%= render 'public/follow_requests/follow-form', user: user %>
+                <% end %>
+              </td>
+              <td style="width: 20%;">
+              </td>
+              <td style="width: 20%;"></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <div class='col-lg-2 offset-lg-1'>
+      <%= render 'public/users/info', user: @user %>
+    </div>
+  </div>
+</div>

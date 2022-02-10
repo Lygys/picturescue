@@ -10,21 +10,22 @@
   </tr>
   <tr>
     <th>following</th>
-    <th><%= user.followings.count %></th>
+    <th><%= link_to user.followings.count, followings_user_path(user) %></th>
   </tr>
   <tr>
     <th>followers</th>
-    <th><%= user.followers.count %></th>
+    <th><%= link_to user.followers.count, followers_user_path(user) %></th>
   </tr>
   <% if user == current_user %>
     <tr>
       <th>follow request</th>
-      <th><%= link_to user.potential_followers.count, potential_followers_user_path(user) %></th>
+      <th class="py-4"><%= link_to user.potential_followers.count, potential_followers_user_path(user) %></th>
     </tr>
   <% end %>
 </table>
 
-<div>
-
-
-</div>
+<% if @user == current_user %>
+  <div class='row ml-5'>
+    <%= link_to '',edit_user_path(current_user), class: "form-group btn btn-outline-secondary btn-block fas fa-user-cog" %>
+  </div>
+<% end %>

@@ -30,11 +30,6 @@
     </div>
     <div class='col-lg-2 offset-lg-1'>
       <%= render 'public/users/info', user: @user %>
-      <% if @user == current_user %>
-        <div class='row'>
-          <%= link_to '',edit_user_path(@user), class: "form-group btn btn-outline-secondary btn-block fas fa-user-cog" %>
-        </div>
-      <% end %>
     </div>
   </div>
 </div>
