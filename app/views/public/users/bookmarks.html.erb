@@ -3,10 +3,10 @@
 
     <div class='col-lg-9'>
       <div class="d-flex inline-block">
-        <h3 class="font-weight-bold">投稿一覧</h3>
-        <h5 class="pt-2">(全<%= @all_posts.count %>件)</h5>
+        <h3 class="font-weight-bold">ブックマーク一覧</h3>
+        <h5 class="pt-2">(全<%= @all_bookmarks.count %>件)</h5>
       </div>
-      <%= render 'public/posts/index', posts: @posts %>
+      <%= render 'public/posts/index', posts: @bookmarks %>
     </div>
     <div class='col-lg-2 offset-lg-1'>
       <%= render 'public/users/info', user: current_user %>

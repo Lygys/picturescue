@@ -7,17 +7,34 @@
       <div class="mx-5 my-4">
         <h3 class="my-4"><%= @post.title %></h3>
     		<h5 class="mb-4">by <%= link_to @post.user.name, user_path(@post.user) %></h5>
-
-    		<p class="my-4 lead"><%= @post.body %></p>
+        <% if @post.user == current_user %>
+          <% if @post.bookmarks.present? %>
+            <%= link_to bookmarkers_post_path(@post) do %>
+              <span class="text-warning">★<%= @post.bookmarks.count %></span>
+            <% end %>
+          <% end %>
+        <% else %>
+         <div id="bookmark-button-<%= @post.id %>">
+            <% if @post.bookmarked_by?(current_user) %>
+              <%= render 'public/bookmarks/remove-btn', post: @post %>
+            <% else %>
+              <%= render 'public/bookmarks/bookmark-btn', post: @post %>
+            <% end %>
+          </div>
+        <% end %>
+        <p class="my-4 lead"><%= @post.body %></p>
   		</div>
 
+
   		<div class="my-5">
-  		  <%= link_to "See More", user_path(@post.user), class: "btn btn-primary mx-3" %>
+  		  <%= link_to "See More", user_path(@post.user), class: "btn btn-primary mx-3"  %>
+  		  <%= link_to "MyPage", mypage_path, class: "btn btn-secondary mx-3" %>
     		<% if @post.user_id == current_user.id %>
     		  <%= link_to "Edit", edit_post_path(@post), class: "btn btn-success mx-3" %>
     		  <%= link_to "Delete", post_path(@post), method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-danger mx-3" %>
     		<% end %>
   		</div>
+
       <p id="post-<%= @post.id %>-comments-count">コメント件数:<%= @post.comments.count %></p>
       <table id="Comment-List" class="my-5">
         <%= render 'public/comments/comment-list', post: @post %>

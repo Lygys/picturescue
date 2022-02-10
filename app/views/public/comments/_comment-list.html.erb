@@ -1,16 +1,16 @@
 <% post.comments.each do |comment| %>
   <tbody>
     <tr>
-      <td>
-        <%= attachment_image_tag(comment.user, :profile_image, :fill, 20, 20, fallback: "no_image.jpg") %>
+      <td style="width: 15%;">
+        <%= attachment_image_tag(comment.user, :profile_image, :fill, 100, 100, fallback: "no_image.jpg") %>
         <br><%= comment.user.name %>
       </td>
-      <td style="width: 80%;"><%= comment.comment %></td>
-      <% if comment.user == current_user %>
-        <td>
+      <td style="width: 70%;"><%= comment.comment %></td>
+      <td style="width: 15%;">
+        <% if comment.user == current_user %>
           <%= link_to 'Destroy', post_comment_path(comment.post_id, comment.id), method: :delete, remote: true,  class: "btn btn-sm btn-danger" %>
-        </td>
-      <% end %>
+        <% end %>
+      </td>
     </tr>
   </tbody>
 <% end %>

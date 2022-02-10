@@ -45,6 +45,13 @@ class Public::UsersController < ApplicationController
     @users = @user.followers.all
   end
 
+
+  def bookmarks
+    @user = User.find(params[:id])
+    @all_bookmarks = @user.bookmark_posts
+    @bookmarks = @all_bookmarks.order(created_at: :desc).page(params[:page]).per(20)
+  end
+
   private
 
   def user_params

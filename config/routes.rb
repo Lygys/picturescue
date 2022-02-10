@@ -15,6 +15,8 @@ Rails.application.routes.draw do
 
 
   root to: 'homes#top'
+
+  get 'mypage' => 'homes#mypage'
   get 'search' => 'searchs#search'
 
   scope module: :public do
@@ -23,6 +25,7 @@ Rails.application.routes.draw do
         get 'potential_followers'
         get 'followings'
         get 'followers'
+        get 'bookmarks'
       end
     end
     resources :follow_requests, only: [:create, :destroy] do
@@ -33,8 +36,9 @@ Rails.application.routes.draw do
     end
     resources :posts do
       resources :comments, only: [:create, :destroy]
+      resource :bookmarks, only: [:create, :destroy]
+      get 'bookmarkers', on: :member
     end
-    resources :bookmarks, only: [:create, :destroy]
     resources :tweets do
       resource :favorites, only: [:create, :destroy]
     end

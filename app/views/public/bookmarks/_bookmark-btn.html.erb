@@ -1,0 +1,3 @@
+<%= link_to post_bookmarks_path(post), method: :post, remote: true do %>
+  <span>☆<%= post.bookmarks.count %></span>
+<% end %>

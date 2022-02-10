@@ -22,6 +22,10 @@
       <th class="py-4"><%= link_to user.potential_followers.count, potential_followers_user_path(user) %></th>
     </tr>
   <% end %>
+  <tr>
+    <th>bookmarks</th>
+    <th><%= link_to user.bookmarks.count, bookmarks_user_path(user) %></th>
+  </tr>
 </table>
 
 <% if @user == current_user %>

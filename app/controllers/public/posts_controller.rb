@@ -54,6 +54,12 @@ class Public::PostsController < ApplicationController
     end
   end
 
+
+  def bookmarkers
+    @post = Post.find(params[:id])
+    @users = @post.bookmarkers
+  end
+
   private
 
   def post_params
