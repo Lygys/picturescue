@@ -1,6 +1,7 @@
-<div class="row">
+
   <%= form_with(model:@tweet, local:true) do |f| %>
-    <%= f.text_field :tweet, class: 'form-control' %>
-    <%= f.submit %>
+    <div class="d-flex my-4">
+      <%= f.text_field :tweet, class: 'mx-3 form-control col-lg-7' %>
+      <%= f.submit "Tweet", class: 'btn btn-primary' %>
+    </div>
   <% end %>
-</div>

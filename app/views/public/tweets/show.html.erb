@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-9">
+      <%= render 'public/tweets/tweet-form', tweet: @tweet %>
+      <table>
+        <tr>
+          <% @tweets.each do |tweet| %>
+            <div class="contents row" >
+              <div class="name3">投稿者:<%= link_to tweet.user.name, user_path(tweet.user) %></div>
+              <div class="name2">投稿日時:<%= tweet.created_at.strftime("%Y-%m-%d %H:%M:%S") %></div>
+              <div class="name2"><%= link_to tweet.tweet, tweet_path(tweet) %></div>
+
+              <% if current_user.id == tweet.user_id %>
+                <div class="name2">
+                 <%= link_to '削除', tweet_path(tweet), method: :delete %>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        </tr>
+      </table>
+      <%= paginate(@tweets) %>
+    </div>
+  </div>
+</div>

@@ -40,7 +40,7 @@ Rails.application.routes.draw do
       resource :bookmarks, only: [:create, :destroy]
       get 'bookmarkers', on: :member
     end
-    resources :tweets, only: [:new, :index, :show, :create, :destroy] do
+    resources :tweets, only: [:index, :show, :create, :destroy] do
       resource :favorites, only: [:create, :destroy]
     end
   end
