@@ -1,21 +1,21 @@
-<%= link_to 'ツイートを投稿する', new_tweet_path, {class: 'btn btn-primary withripple' }%>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-9">
+      <%= render 'public/tweets/tweet-form', tweet: @tweet %>
+      <% @tweets.each do |tweet| %>
+        <div class="contents row" >
+          <div class="name3">投稿者:<%= link_to tweet.user.name, user_path(tweet.user) %></div>
+          <div class="name2">投稿日時:<%= tweet.created_at.strftime("%Y-%m-%d %H:%M:%S") %></div>
+          <div class="name2"><%= link_to tweet.tweet, tweet_path(tweet) %></div>
 
-
-<% @tweets.each do |tweet| %>
-    <div class="contents row" >
-      <div class="name3">投稿者:<%= link_to tweet.user.name, user_path(tweet.user), method: :get %></div>
-      <div class="name2">投稿日時:<%= tweet.created_at.strftime("%Y-%m-%d %H:%M:%S") %></div>
-      <div class="name2"><%= link_to '詳細', tweet_path(tweet), method: :get %></div>
-      <% if user_signed_in? && current_user.id == tweet.user_id %>
-      <div class="name2">
-       <%= link_to '編集', edit_tweet_path(tweet), method: :get %>
-      </div>
-      <div class="name2">
-       <%= link_to '削除', "/tweets/#{tweet.id}", method: :delete %>
-      </div>
-       <% end %>
-      <div class="name3"><%= simple_format(tweet.text) %></div>
+          <% if current_user.id == tweet.user_id %>
+            <div class="name2">
+             <%= link_to '削除', tweet_path(tweet), method: :delete %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+      <%= paginate(@tweets) %>
     </div>
-<% end %>
-  <%= paginate(@tweets) %>
+  </div>
 </div>
