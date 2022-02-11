@@ -52,6 +52,12 @@ class Public::UsersController < ApplicationController
     @bookmarks = @all_bookmarks.order(created_at: :desc).page(params[:page]).per(20)
   end
 
+  def tweets
+    @user = User.find(params[:id])
+    @tweet = Tweet.new
+    @tweets = @user.tweets.order(created_at: :desc).page(params[:page]).per(50)
+  end
+
   private
 
   def user_params

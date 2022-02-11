@@ -26,6 +26,7 @@ Rails.application.routes.draw do
         get 'followings'
         get 'followers'
         get 'bookmarks'
+        get 'tweets'
       end
     end
     resources :follow_requests, only: [:create, :destroy] do
@@ -39,7 +40,7 @@ Rails.application.routes.draw do
       resource :bookmarks, only: [:create, :destroy]
       get 'bookmarkers', on: :member
     end
-    resources :tweets do
+    resources :tweets, only: [:new, :index, :show, :create, :destroy] do
       resource :favorites, only: [:create, :destroy]
     end
   end
