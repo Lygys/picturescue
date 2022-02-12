@@ -55,7 +55,12 @@ class Public::UsersController < ApplicationController
   def tweets
     @user = User.find(params[:id])
     @tweet = Tweet.new
-    @tweets = @user.tweets.order(created_at: :desc).page(params[:page]).per(50)
+    @tweets = @user.tweets.order(created_at: :desc).limit(300).page(params[:page]).per(50)
+  end
+
+  def favorite_tweets
+    @user = User.find(params[:id])
+    @tweets = @user.favorite_tweets.order(created_at: :desc).limit(300).page(params[:page]).per(50)
   end
 
   private

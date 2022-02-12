@@ -1,0 +1,13 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-9">
+      <% if @user == current_user %>
+        <%= render 'public/tweets/tweet-form', tweet: @tweet %>
+      <% end %>
+      <%= render 'public/tweets/index', tweets: @tweets %>
+    </div>
+    <div class='col-lg-2 offset-lg-1'>
+      <%= render 'public/users/info', user: @user %>
+    </div>
+  </div>
+</div>

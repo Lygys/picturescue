@@ -1,0 +1,6 @@
+<%= link_to tweet_favorites_path(tweet), method: :delete, remote: true do %>
+  <span style="color: red;">♥</span>
+<% end %>
+<% if tweet.favorites.present? %>
+  <%= link_to tweet.favorites.count, favoriting_users_tweet_path(tweet) %>
+<% end %>

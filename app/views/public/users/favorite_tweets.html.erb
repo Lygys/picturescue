@@ -1,11 +1,11 @@
 <div class="container">
   <div class="row">
     <div class="col-lg-9">
-      <%= render 'public/tweets/tweet-form', tweet: @tweet %>
+      <%= link_to "ユーザーツイート", tweets_user_path, class: "btn btn-primary" %>
       <%= render 'public/tweets/index', tweets: @tweets %>
     </div>
     <div class='col-lg-2 offset-lg-1'>
-      <%= render 'public/users/info', user: current_user %>
+      <%= render 'public/users/info', user: @user %>
     </div>
   </div>
 </div>

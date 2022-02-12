@@ -1,0 +1,4 @@
+<%= link_to "♡", tweet_favorites_path(tweet), method: :post, remote: true %>
+<% if tweet.favorites.present? %>
+  <%= link_to tweet.favorites.count, favoriting_users_tweet_path(tweet) %>
+<% end %>

@@ -1,3 +1,4 @@
-<%= link_to post_bookmarks_path(post), method: :post, remote: true do %>
-  <span>☆<%= post.bookmarks.count %></span>
+<%= link_to "☆", post_bookmarks_path(post), method: :post, remote: true %>
+<% if post.bookmarks.present? %>
+  <%= link_to post.bookmarks.count, bookmarking_users_post_path(post) %>
 <% end %>

@@ -1,0 +1,30 @@
+      <table class="table">
+        <% tweets.each do |tweet| %>
+          <tr>
+            <td style="width: 15%">
+                <%= link_to tweet_path(tweet) do %>
+                  <%= attachment_image_tag(tweet.user, :profile_image, :fill, 100, 100, fallback: "no_image.jpg") %>
+                <% end %>
+                <br><%= link_to tweet.user.name, tweets_user_path(tweet.user) %>
+            </td>
+            <td style="width: 75%"><%= tweet.tweet %></td>
+            <% if tweet.user == current_user %>
+              <td style="width: 10%">
+                <% if tweet.favorites.present? %>
+                  <span style="color: red;">♥</span>
+                  <%= link_to tweet.favorites.count, favoriting_users_tweet_path(tweet) %>
+                <% end %>
+              </td>
+            <% else %>
+              <td id="favorite-button-<%= tweet.id %>" style="width: 10%">
+                <% if tweet.favorited_by?(current_user) %>
+                  <%= render 'public/favorites/remove-btn', tweet: tweet %>
+                <% else %>
+                  <%= render 'public/favorites/favorite-btn', tweet: tweet %>
+                <% end %>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+      </table>
+      <div class="py-2 d-flex align-items-center justify-content-center"><%= paginate(tweets) %></div>

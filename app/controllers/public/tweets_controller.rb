@@ -13,7 +13,7 @@ class Public::TweetsController < ApplicationController
   def index
     @tweet = Tweet.new
     followings = current_user.followings.all.ids
-    followings.push(current_user)
+    followings.push(current_user.id)
     tweets = Tweet.where(user_id: followings)
     @tweets = tweets.order(created_at: :desc).limit(300).page(params[:page]).per(50)
   end
@@ -22,10 +22,19 @@ class Public::TweetsController < ApplicationController
     @tweet = Tweet.find(params[:id])
   end
 
+  def destroy
+    @tweet = Tweet.find(params[:id])
+    if @tweet.destroy
+      redirect_to tweets_user_path(current_user), notice: "ツイートを削除しました"
+    else
+      redirect_to request.referer, notice: "ツイートを削除できませんでした"
+    end
+  end
 
-
-
-
+  def favoriting_users
+    @tweet = Tweet.find(params[:id])
+    @users = @tweet.favoriting_users
+  end
 
   private
   def tweet_params

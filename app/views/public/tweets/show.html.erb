@@ -1,25 +1,44 @@
 <div class="container">
   <div class="row">
     <div class="col-lg-9">
-      <%= render 'public/tweets/tweet-form', tweet: @tweet %>
       <table>
         <tr>
-          <% @tweets.each do |tweet| %>
-            <div class="contents row" >
-              <div class="name3">投稿者:<%= link_to tweet.user.name, user_path(tweet.user) %></div>
-              <div class="name2">投稿日時:<%= tweet.created_at.strftime("%Y-%m-%d %H:%M:%S") %></div>
-              <div class="name2"><%= link_to tweet.tweet, tweet_path(tweet) %></div>
-
-              <% if current_user.id == tweet.user_id %>
-                <div class="name2">
-                 <%= link_to '削除', tweet_path(tweet), method: :delete %>
-                </div>
+          <td style="width: 15%">
+              <%= link_to tweets_user_path(@tweet.user) do %>
+                <%= attachment_image_tag(@tweet.user, :profile_image, :fill, 100, 100, fallback: "no_image.jpg") %>
               <% end %>
-            </div>
+          </td>
+          <td style="width: 70%"><%= @tweet.tweet %></td>
+          <td style="width: 15%">
+            <% if @tweet.user == current_user %>
+              <%= link_to "Delete", tweet_path(@tweet), method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-danger" %>
+            <% end %>
+          </td>
+        </tr>
+        <tr>
+          <td><%= link_to @tweet.user.name, tweets_user_path(@tweet.user) %></td>
+          <% if @tweet.user == current_user %>
+            <td>
+              <% if tweet.favorites.present? %>
+                <span style="color: red;">♥</span>
+                <%= link_to tweet.favorites.count, favoriting_users_tweet_path(tweet) %>
+              <% end %>
+            </td>
+          <% else %>
+            <td id="favorite-button-<%= @tweet.id %>">
+              <% if @tweet.favorited_by?(current_user) %>
+                <%= render 'public/favorites/remove-btn', tweet: @tweet %>
+              <% else %>
+                <%= render 'public/favorites/favorite-btn', tweet: @tweet %>
+              <% end %>
+            </td>
           <% end %>
+          <td><%= @tweet.created_at.strftime("%Y-%m-%d %H:%M") %></td>
         </tr>
       </table>
-      <%= paginate(@tweets) %>
+    </div>
+    <div class='col-lg-2 offset-lg-1'>
+      <%= render 'public/users/info', user: @tweet.user %>
     </div>
   </div>
 </div>

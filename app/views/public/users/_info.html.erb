@@ -2,8 +2,36 @@
 <table class="table mt-4">
   <tr>
 	  <th><%= attachment_image_tag(user, :profile_image, :fill, 100, 100, fallback: "no_image.jpg") %></th>
-	  <th class="py-5"><%= user.name %></th>
+	  <th>
+	    <p class="py-1"><%= user.name %></p>
+	    <div class="d-flex">
+	      <%= link_to "Posts", user_path(user), class: "btn btn-sm btn-success mr-2" %>
+	      <%= link_to "Tweets", tweets_user_path(user), class: "btn btn-sm btn-primary mr-2" %>
+        <%= link_to "favs", favorite_tweets_user_path(user), class: "btn btn-sm btn-danger" %>
+	    </div>
+	   </th>
   </tr>
+  <% if user == current_user %>
+    <tr>
+      <th>follow request</th>
+      <th class="py-4"><%= link_to user.potential_followers.count, potential_followers_user_path(user) %></th>
+    </tr>
+  <% elsif (current_user.following?(user))&&(user.following?(current_user)) %>
+    <tr>
+      <th>relationship</th>
+      <th>相互フォロー</th>
+    </tr>
+  <% elsif current_user.following?(user) %>
+    <tr>
+      <th>relationship</th>
+      <th>フォロー中</th>
+    </tr>
+  <% else %>
+    <tr>
+      <th class="pt-3">follow request</th>
+      <th class="py-4"><%= render 'public/follow_requests/follow-form', user: user %></th>
+    </tr>
+  <% end %>
   <tr>
 	  <th>total posts</th>
 	  <th><%= user.posts.count %></th>
@@ -16,12 +44,7 @@
     <th>followers</th>
     <th><%= link_to user.followers.count, followers_user_path(user) %></th>
   </tr>
-  <% if user == current_user %>
-    <tr>
-      <th>follow request</th>
-      <th class="py-4"><%= link_to user.potential_followers.count, potential_followers_user_path(user) %></th>
-    </tr>
-  <% end %>
+
   <tr>
     <th>bookmarks</th>
     <th><%= link_to user.bookmarks.count, bookmarks_user_path(user) %></th>

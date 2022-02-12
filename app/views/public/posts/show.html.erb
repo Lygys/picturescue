@@ -9,7 +9,7 @@
     		<h5 class="mb-4">by <%= link_to @post.user.name, user_path(@post.user) %></h5>
         <% if @post.user == current_user %>
           <% if @post.bookmarks.present? %>
-            <%= link_to bookmarkers_post_path(@post) do %>
+            <%= link_to bookmarking_users_post_path(@post) do %>
               <span class="text-warning">★<%= @post.bookmarks.count %></span>
             <% end %>
           <% end %>
