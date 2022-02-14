@@ -16,8 +16,8 @@ Rails.application.routes.draw do
 
   root to: 'homes#top'
 
-  get 'mypage' => 'homes#mypage'
-  get 'search' => 'searchs#search'
+  get 'search_page' => 'homes#search_page'
+  get 'search' => 'searches#search'
 
   scope module: :public do
     resources :users, only: [:index, :show, :edit, :update] do

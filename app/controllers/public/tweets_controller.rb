@@ -1,4 +1,13 @@
 class Public::TweetsController < ApplicationController
+  before_action :authenticate_user!
+  before_action :ensure_correct_user, only: [:destroy]
+
+  def ensure_correct_user
+    @tweet = Tweet.find(params[:id])
+    unless @tweet.user == current_user
+      redirect_to user_path(current_user)
+    end
+  end
 
   def create
     @tweet = Tweet.new(tweet_params)
@@ -23,7 +32,6 @@ class Public::TweetsController < ApplicationController
   end
 
   def destroy
-    @tweet = Tweet.find(params[:id])
     if @tweet.destroy
       redirect_to tweets_user_path(current_user), notice: "ツイートを削除しました"
     else
@@ -33,7 +41,7 @@ class Public::TweetsController < ApplicationController
 
   def favoriting_users
     @tweet = Tweet.find(params[:id])
-    @users = @tweet.favoriting_users
+    @users = @tweet.favoriting_users.page(params[:page]).per(20)
   end
 
   private

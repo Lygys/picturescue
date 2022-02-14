@@ -1,4 +1,5 @@
 class Public::UsersController < ApplicationController
+  before_action :authenticate_user!
   before_action :ensure_correct_user, only: [:edit, :update, :potential_followers]
 
   def ensure_correct_user
@@ -9,7 +10,7 @@ class Public::UsersController < ApplicationController
   end
 
   def index
-    @users = User.all
+    @users = User.all.page(params[:page]).per(20)
   end
 
   def show
@@ -32,17 +33,17 @@ class Public::UsersController < ApplicationController
 
   def potential_followers
     @user = User.find(params[:id])
-    @users = @user.potential_followers.all
+    @users = @user.potential_followers.all.page(params[:page]).per(20)
   end
 
   def followings
     @user = User.find(params[:id])
-    @users = @user.followings.all
+    @users = @user.followings.all.page(params[:page]).per(20)
   end
 
   def followers
     @user = User.find(params[:id])
-    @users = @user.followers.all
+    @users = @user.followers.all.page(params[:page]).per(20)
   end
 
 

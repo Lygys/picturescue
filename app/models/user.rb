@@ -28,6 +28,15 @@ class User < ApplicationRecord
 
 
 
+  def self.search_for(content, method)
+    if method == 'perfect'
+      User.where(name: content)
+    else
+      User.where('name LIKE ?', '%' + content + '%')
+    end
+  end
+
+
 
   def follow_requesting?(other_user)
     self.potential_followings.include?(other_user)

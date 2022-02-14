@@ -17,7 +17,7 @@
               <li><%= link_to 'ログアウト', destroy_admin_session_path, method: :delete, class: "btn btn-light mx-2" %></li>
             <% elsif user_signed_in? %>
               <li><%= link_to '新規投稿', new_post_path, class: "btn btn-light mx-2" %></li>
-              <li><%= link_to '検索ページ', bookmarks_user_path(current_user), class: "btn btn-light mx-2" %></li>
+              <li><%= link_to '検索ページ', search_page_path, class: "btn btn-light mx-2" %></li>
               <li><%= link_to 'SNS', tweets_path, class: "btn btn-light mx-2" %></li>
               <li><%= link_to 'マイページ', user_path(current_user), class: "btn btn-light mx-2" %></li>
               <li><%= link_to 'ログアウト', destroy_user_session_path, method: :delete, class: "btn btn-light mx-2" %></li>

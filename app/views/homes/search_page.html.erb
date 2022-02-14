@@ -1,0 +1,53 @@
+<div class='container'>
+   <div class='row'>
+
+    <div class='col-lg-9'>
+      <div class="my-5">
+        <div class="my-3">
+        <% if user_signed_in? %>
+          <%= form_with url: search_path, method: :get, local: true do |f| %>
+            <%= f.text_field :content, class: "col-lg-6 mx-3" %>
+            <%= f.select :model, options_for_select({ "User" => "user", "Post" => "post", "Tag" => "tag" }) %>
+            <%= f.select :method, options_for_select({ "完全一致" => "perfect", "部分一致" => "partial" }) %>
+            <%= f.submit '検索', class: "btn btn-sm btn-success" %>
+          <% end %>
+        <% end %>
+        </div>
+        <div class="mx-3">
+          <%= link_to "新着投稿一覧", posts_path, class: " btn btn-sm btn-secondary" %>
+          <%= link_to "ユーザー一覧", users_path, class: "btn btn-sm btn-light mx-3" %>
+        </div>
+      </div>
+
+      <h3 class="my-3 font-weight-bold">フォローユーザーの新着投稿</h3>
+      <div class ="d-inline-flex flex-wrap">
+        <% @posts.each do |post| %>
+          <div class="px-3 py-3">
+            <% if post.post_image.present? %>
+              <div>
+                <%= link_to post_path(post) do %>
+                  <%= attachment_image_tag(post, :post_image, :fill, 160, 128) %>
+                <% end %>
+              </div>
+              <p class="font-weight-bold my-2"><%= post.title %></p>
+            <% else %>
+              <div class="d-flex justify-content-center align-items-center" style="width: 160px; height: 128px;">
+                <%= link_to post_path(post) do %>
+                  <h5 class="font-weight-bold"><%= post.title %></h5>
+                <% end %>
+              </div>
+              <p class="my-2">text-only</p>
+            <% end %>
+            <p class="my-2"><%= post.user.name %></p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <div class='col-lg-2 offset-lg-1'>
+      <%= render 'public/users/info', user: current_user %>
+    </div>
+  </div>
+</div>
+
+
+

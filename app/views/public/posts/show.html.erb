@@ -23,12 +23,17 @@
           </div>
         <% end %>
         <p class="my-4 lead"><%= @post.body %></p>
+        <% @post.tags.each do |tag| %>
+          <%= link_to search_path(content: tag.name, model: "tag", method: "perfect") do %>
+            <button class="btn btn-secondary mx-1">#<%= tag.name %></button>
+          <% end %>
+        <% end %>
   		</div>
 
 
   		<div class="my-5">
   		  <%= link_to "See More", user_path(@post.user), class: "btn btn-primary mx-3"  %>
-  		  <%= link_to "MyPage", mypage_path, class: "btn btn-secondary mx-3" %>
+  		  <%= link_to "Search Page", search_page_path, class: "btn btn-info mx-3" %>
     		<% if @post.user_id == current_user.id %>
     		  <%= link_to "Edit", edit_post_path(@post), class: "btn btn-success mx-3" %>
     		  <%= link_to "Delete", post_path(@post), method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-danger mx-3" %>

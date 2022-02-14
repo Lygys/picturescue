@@ -1,0 +1,19 @@
+<div class='container'>
+   <div class='row'>
+    <div class='col-lg-9'>
+      <% if @model == 'user' %>
+      	<h3>Users search for "<%= @content %>"</h3>
+        <%= render 'public/users/index', users: @results %>
+      <% elsif @model == 'post' || @model == 'tag' %>
+      	<h3>Posts search for "<%= @content %>"</h3>
+        <%= render 'public/posts/index', posts: @results %>
+      <% end %>
+    </div>
+    <div class='col-lg-2 offset-lg-1'>
+      <%= render 'public/users/info', user: current_user %>
+    </div>
+  </div>
+</div>
+
+
+
