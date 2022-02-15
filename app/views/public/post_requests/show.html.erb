@@ -1,0 +1,62 @@
+<div class='container'>
+   <div class='row'>
+    <div class='col-lg-9'>
+      <table>
+        <tbody>
+          <tr>
+            <td style="width: 15%;">
+              <%= attachment_image_tag(@post_request.user, :profile_image, :fill, 100, 100, fallback: "no_image.jpg") %>
+              <br><%= @post_request.user.name %>
+            </td>
+            <td style="width: 65%;"><%= @post_request.comment %></td>
+            <td style="width: 20%;">
+              <%= link_to 'Request Box', request_box_user_path(@post_request.host_id), class: "btn btn-block btn-success" %>
+              <% if @post_request.user == current_user %>
+                <%= link_to 'Destroy', user_post_request_path(@post_request.host_id, @post_request.id), method: :delete, class: "btn btn-block btn-danger" %>
+              <% end %>
+            </td>
+          </tr>
+          <% if @post_request.host_comment.present? %>
+            <tr>
+              <td>
+                <%= attachment_image_tag(@post_request.host, :profile_image, :fill, 100, 100, fallback: "no_image.jpg") %>
+                <br><%= @post_request.host.name %>
+              </td>
+              <td>
+                <%= @post_request.host_comment %>
+                <%= form_with(model: @post_request, url: user_post_request_path(@post_request.host_id, @post_request.id), method: :patch, local:true) do |f| %>
+                  <%= f.hidden_field :host_comment, value: "" %>
+                  <%= f.submit "返信を削除", class: 'btn btn-sm btn-danger' %>
+                <% end %>
+              </td>
+              <td>
+                <% if @post_request.host_id == current_user.id %>
+                  創作メモリンク
+                <% end %>
+              </td>
+            </tr>
+          <% elsif @post_request.host_id == current_user.id %>
+            <tr>
+              <td>
+                <%= attachment_image_tag(@post_request.host, :profile_image, :fill, 100, 100, fallback: "no_image.jpg") %>
+                <br><%= @post_request.host.name %>
+              </td>
+              <td>
+                <%= form_with(model: @post_request, url: user_post_request_path(@post_request.host_id, @post_request.id), method: :patch, local:true) do |f| %>
+                  <%= f.text_area :host_comment, class: "col-lg-12" %>
+                  <%= f.submit "返信", class: 'btn btn-sm btn-success' %>
+                <% end %>
+              </td>
+              <td>
+                創作メモリンク
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <div class='col-lg-2 offset-lg-1'>
+      <%= render 'public/users/info', user: @post_request.host %>
+    </div>
+  </div>
+</div>

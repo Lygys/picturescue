@@ -1,0 +1,23 @@
+<div class='container'>
+   <div class='row'>
+    <div class='col-md-8 mx-auto'>
+      <%= form_with(model:[user, post_request], local:true) do |f| %>
+        <%= render 'layouts/errors', obj: post_request %>
+        <div class="form-group">
+          <%= f.label :comment %>
+          <%= f.text_area :comment, class: 'form-control' %>
+        </div>
+
+        <div class="form-group">
+          <%= f.radio_button :is_annonymous, :false %>
+          <%= f.label :is_annonymous, "ユーザー名を公開する", value: false %>
+          <%= f.radio_button :is_annonymous, :true %>
+          <%= f.label :is_annonymous, "匿名で投稿する", value: true %>
+        </div>
+        <div class="form-group">
+          <%= f.submit "送信", class: 'btn btn-success' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

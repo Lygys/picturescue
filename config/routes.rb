@@ -21,7 +21,7 @@ Rails.application.routes.draw do
 
   scope module: :public do
     resources :users, only: [:index, :show, :edit, :update] do
-      resources :post_requests
+      resources :post_requests, except: [:index, :edit]
       member do
         get 'potential_followers'
         get 'followings'
@@ -29,6 +29,7 @@ Rails.application.routes.draw do
         get 'bookmarks'
         get 'tweets'
         get 'favorite_tweets'
+        get 'request_box'
         patch 'open_request_box'
         patch 'close_request_box'
       end

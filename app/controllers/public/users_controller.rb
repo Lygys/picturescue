@@ -74,6 +74,10 @@ class Public::UsersController < ApplicationController
     redirect_to request.referer
   end
 
+  def request_box
+    @user = User.find(params[:id])
+    @request_box = @user.received_requests.order(created_at: :desc).limit(300).page(params[:page]).per(50)
+  end
 
 
   private

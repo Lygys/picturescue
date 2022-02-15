@@ -8,8 +8,7 @@ class User < ApplicationRecord
   has_many :tweets, dependent: :destroy
 
   has_many :post_requests, dependent: :destroy
-  has_many :received_requests, class_name: 'PostRequest', foreign_key: 'host_id'
-  has_many :requesters, through: :received_requests, source: :user, dependent: :destroy
+  has_many :received_requests, class_name: 'PostRequest', foreign_key: 'host_id', dependent: :destroy
 
 
   has_many :follow_requests
