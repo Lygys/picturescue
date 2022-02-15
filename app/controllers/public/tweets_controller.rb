@@ -19,6 +19,7 @@ class Public::TweetsController < ApplicationController
     end
   end
 
+  #current_userのタイムライン
   def index
     @tweet = Tweet.new
     followings = current_user.followings.all.ids

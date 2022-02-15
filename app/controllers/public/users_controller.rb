@@ -64,6 +64,18 @@ class Public::UsersController < ApplicationController
     @tweets = @user.favorite_tweets.order(created_at: :desc).limit(300).page(params[:page]).per(50)
   end
 
+  def open_request_box
+    current_user.update(is_open_to_requests: true)
+    redirect_to request.referer
+  end
+
+  def close_request_box
+    current_user.update(is_open_to_requests: false)
+    redirect_to request.referer
+  end
+
+
+
   private
 
   def user_params

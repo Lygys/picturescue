@@ -1,0 +1,2 @@
+class CreaterNote < ApplicationRecord
+end

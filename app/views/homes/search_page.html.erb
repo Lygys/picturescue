@@ -7,15 +7,15 @@
         <% if user_signed_in? %>
           <%= form_with url: search_path, method: :get, local: true do |f| %>
             <%= f.text_field :content, class: "col-lg-6 mx-3" %>
-            <%= f.select :model, options_for_select({ "User" => "user", "Post" => "post", "Tag" => "tag" }) %>
-            <%= f.select :method, options_for_select({ "完全一致" => "perfect", "部分一致" => "partial" }) %>
+            <%= f.select :model, options_for_select({ "Post" => "post", "User" => "user", "Tag" => "tag" }) %>
+            <%= f.select :method, options_for_select({ "部分一致" => "partial", "完全一致" => "perfect" }) %>
             <%= f.submit '検索', class: "btn btn-sm btn-success" %>
           <% end %>
         <% end %>
         </div>
         <div class="mx-3">
           <%= link_to "新着投稿一覧", posts_path, class: " btn btn-sm btn-secondary" %>
-          <%= link_to "ユーザー一覧", users_path, class: "btn btn-sm btn-light mx-3" %>
+          <%= link_to "ユーザー一覧", users_path, class: "btn btn-sm btn-secondary mx-3" %>
         </div>
       </div>
 

@@ -7,6 +7,11 @@ class User < ApplicationRecord
   has_many :posts, dependent: :destroy
   has_many :tweets, dependent: :destroy
 
+  has_many :post_requests, dependent: :destroy
+  has_many :received_requests, class_name: 'PostRequest', foreign_key: 'host_id'
+  has_many :requesters, through: :received_requests, source: :user, dependent: :destroy
+
+
   has_many :follow_requests
   has_many :potential_followings, through: :follow_requests, source: :follow, dependent: :destroy
   has_many :reverse_of_follow_requests, class_name: 'FollowRequest', foreign_key: 'follow_id'

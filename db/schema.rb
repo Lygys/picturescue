@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_07_021541) do
+ActiveRecord::Schema.define(version: 2022_02_15_020148) do
 
   create_table "admins", force: :cascade do |t|
     t.string "email", default: "test_admin@gmail.com", null: false
@@ -44,6 +44,17 @@ ActiveRecord::Schema.define(version: 2022_02_07_021541) do
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
+  create_table "creater_notes", force: :cascade do |t|
+    t.text "body", null: false
+    t.float "evaluation"
+    t.integer "requester_id"
+    t.boolean "requester_is_annonymous"
+    t.boolean "is_private", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["requester_id"], name: "index_creater_notes_on_requester_id"
+  end
+
   create_table "favorites", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "tweet_id", null: false
@@ -62,6 +73,18 @@ ActiveRecord::Schema.define(version: 2022_02_07_021541) do
     t.index ["follow_id"], name: "index_follow_requests_on_follow_id"
     t.index ["user_id", "follow_id"], name: "index_follow_requests_on_user_id_and_follow_id", unique: true
     t.index ["user_id"], name: "index_follow_requests_on_user_id"
+  end
+
+  create_table "post_requests", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "host_id", null: false
+    t.text "comment", null: false
+    t.text "host_comment"
+    t.boolean "is_annonymous", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["host_id"], name: "index_post_requests_on_host_id"
+    t.index ["user_id"], name: "index_post_requests_on_user_id"
   end
 
   create_table "post_tags", force: :cascade do |t|
@@ -119,6 +142,7 @@ ActiveRecord::Schema.define(version: 2022_02_07_021541) do
     t.boolean "is_blocked", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "is_open_to_requests", default: false, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
