@@ -14,9 +14,13 @@ class Public::CreatorNotesController < ApplicationController
 
   def create
     @note = CreatorNote.new(creator_note_params)
-    @note.user_id = current_user.id
+    @note.user_id = @user.id
     if @note.save
-      redirect_to user_creator_notes_path(@user), notice: "創作メモを追加しました"
+      if @user.id != @note.requester_id
+        redirect_to request.referer, notice: "創作メモに追加しました"
+      else
+        redirect_to user_creator_notes_path(@user), notice: "創作メモを追加しました"
+      end
     else
       @user = User.find(params[:user_id])
       render 'new'
@@ -57,7 +61,7 @@ class Public::CreatorNotesController < ApplicationController
       redirect_to user_creator_notes_path(@user), notice: "創作メモを削除しました"
     else
       flash.now[:alert] = "創作メモを削除できませんでした"
-      request.referer
+      redirect_to request.referer
     end
   end
 
@@ -68,7 +72,7 @@ class Public::CreatorNotesController < ApplicationController
       redirect_to user_creator_notes_path(@user), notice: "創作メモをリセットしました"
     else
       flash.now[:alert] = "創作メモをリセットできませんでした"
-      request.referer
+      redirect_to request.referer
     end
   end
 
@@ -76,7 +80,7 @@ class Public::CreatorNotesController < ApplicationController
   private
 
   def creator_note_params
-    params.require(:creator_note).permit(:comment, :requester_id, :is_annonymous)
+    params.require(:creator_note).permit(:comment, :requester_id, :is_annonymous, :evaluation)
   end
 
 end

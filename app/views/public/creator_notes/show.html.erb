@@ -5,7 +5,7 @@
         <tbody>
           <tr>
             <td style="width: 15%;">
-              <% if (@note.requester != @note.user)&&(@note.is_annonymous == true) %>
+              <% if (@note.requester != @note.user)&&(@note.is_annonymous == true)&&(@note.requester != current_user) %>
                 <%= image_tag("no_image.jpg", size: "100x100") %>
                 <br><p>匿名さん</p>
               <% elsif @note.requester != @note.user %>
@@ -18,9 +18,12 @@
             </td>
             <td style="width: 65%;">
               <%= @note.comment %>
-              <% if @note.user == current_user %>
-                <br><%= link_to 'Edit', edit_user_creator_note_path(@user, @note), class: "btn btn-sm btn-success" %>
-              <% end %>
+              <div class="pt-2">
+                <% if @note.user == current_user %>
+                  <br><%= link_to 'Edit', edit_user_creator_note_path(@user, @note), class: "btn btn-sm btn-success text-right" %>
+                <% end %>
+                <span class="note-evaluation mx-3" data-score="<%= @note.evaluation %>"></span>
+              </div>
             </td>
             <td style="width: 20%;">
               <%= link_to 'Creator Notes', user_creator_notes_path(@user), class: "btn btn-block btn-primary" %>
@@ -37,3 +40,12 @@
     </div>
   </div>
 </div>
+<script>
+  $('.note-evaluation').raty({
+    readOnly: true,
+    score: function() {
+      return $(this).attr('data-score');
+    },
+    path: '/assets/'
+  });
+</script>

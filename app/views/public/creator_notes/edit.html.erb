@@ -7,6 +7,9 @@
           <%= f.label :comment %>
           <%= f.text_area :comment, class: 'form-control', style: 'height: 300px;' %>
         </div>
+        <div id="evaluate_stars">
+          <label>Rate</label>
+        </div>
         <div class="form-group">
           <%= f.submit "送信", class: 'btn btn-success' %>
         </div>
@@ -14,3 +17,11 @@
     </div>
   </div>
 </div>
+<script>
+  $('#evaluate_stars').raty({
+    starOn: "<%= asset_path('star-on.png') %>",
+    starOff: "<%= asset_path('star-off.png') %>",
+    starHalf: "<%= asset_path('star-half.png') %>",
+    scoreName: 'creator_note[evaluation]'
+  });
+</script>

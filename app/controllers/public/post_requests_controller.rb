@@ -44,7 +44,7 @@ class Public::PostRequestsController < ApplicationController
       redirect_to user_post_request_path(@user, @post_request)
     else
       flash.now[:alert] = "返信メッセージを送れませんでした"
-      request.referer
+      redirect_to request.referer
     end
   end
 
@@ -59,7 +59,7 @@ class Public::PostRequestsController < ApplicationController
       redirect_to user_post_requests_path(@user), notice: "リクエストを削除しました"
     else
       flash.now[:alert] = "リクエストを削除できませんでした"
-      request.referer
+      redirect_to request.referer
     end
   end
 
@@ -70,7 +70,7 @@ class Public::PostRequestsController < ApplicationController
       redirect_to user_post_requests_path(@user), notice: "お題箱をリセットしました"
     else
       flash.now[:alert] = "お題箱をリセットできませんでした"
-      request.referer
+      redirect_to request.referer
     end
   end
 

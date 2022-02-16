@@ -33,6 +33,12 @@
       <th class="py-4"><%= link_to user.potential_followers.count, potential_followers_user_path(user) %></th>
     </tr>
   <% elsif (current_user.following?(user))&&(user.following?(current_user)) %>
+    <% if user.creator_note_is_private == false %>
+      <tr>
+        <th><%= link_to "創作メモ", user_creator_notes_path(user), class: "btn btn-primary" %></th>
+        <th class="py-3">公開中</th>
+      </tr>
+    <% end %>
     <tr>
       <th><%= link_to "お題箱", user_post_requests_path(user), class: "btn btn-primary" %></th>
       <% if user.is_open_to_requests == true %>
@@ -46,6 +52,12 @@
       <th>相互フォロー</th>
     </tr>
   <% elsif current_user.following?(user) %>
+    <% if user.creator_note_is_private == false %>
+      <tr>
+        <th><%= link_to "創作メモ", user_creator_notes_path(user), class: "btn btn-primary" %></th>
+        <th class="py-3">公開中</th>
+      </tr>
+    <% end %>
     <tr>
       <th><%= link_to "お題箱", user_post_requests_path(user), class: "btn btn-primary" %></th>
       <% if user.is_open_to_requests == true %>

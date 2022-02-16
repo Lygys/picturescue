@@ -5,7 +5,7 @@
         <tbody>
           <tr>
             <td style="width: 15%;">
-              <% if (@post_request.is_annonymous == true)&&(@post_request.user != current_user)  %>
+              <% if (@post_request.is_annonymous == true)&&(@post_request.user != current_user) %>
                 <%= image_tag("no_image.jpg", size: "100x100") %>
                 <br><p>匿名さん</p>
               <% else %>
@@ -40,7 +40,6 @@
                 <% if @user == current_user %>
                   <%= form_with(model:[@user, @note], url: user_creator_notes_path, local:true) do |f| %>
                     <%= f.hidden_field :comment, value: @post_request.comment %>
-                    <%= f.hidden_field :user_id, value: @user.id %>
                     <%= f.hidden_field :requester_id, value: @post_request.user_id %>
                     <%= f.hidden_field :is_annonymous, value: @post_request.is_annonymous %>
                     <%= f.submit "創作メモに追加", class: 'btn btn-block btn-primary' %>
@@ -61,7 +60,14 @@
                 <% end %>
               </td>
               <td>
-                創作メモリンク
+                <% if @user == current_user %>
+                  <%= form_with(model:[@user, @note], url: user_creator_notes_path, local:true) do |f| %>
+                    <%= f.hidden_field :comment, value: @post_request.comment %>
+                    <%= f.hidden_field :requester_id, value: @post_request.user_id %>
+                    <%= f.hidden_field :is_annonymous, value: @post_request.is_annonymous %>
+                    <%= f.submit "創作メモに追加", class: 'btn btn-block btn-primary' %>
+                  <% end %>
+                <% end %>
               </td>
             </tr>
           <% end %>
