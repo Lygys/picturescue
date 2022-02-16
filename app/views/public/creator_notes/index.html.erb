@@ -1,1 +1,44 @@
-<%= link_to "Post", new_user_creator_notes_path(user), class: "btn btn-primary" %>
+<div class='container'>
+   <div class='row'>
+    <div class='col-lg-9'>
+      <div class="text-right">
+        <% if @user == current_user %>
+          <%= link_to new_user_creator_note_path(@user) do %>
+            <button type="button" class="btn btn-primary rounded-circle p-0" style="width:3rem; height:3rem;">＋</button>
+          <% end %>
+          <% if @notes.present? %>
+            <%= link_to "創作メモをリセット", reset_user_creator_notes_path(@user), method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-danger mx-3" %>
+          <% end %>
+        <% end %>
+      </div>
+
+      <table class="table my-4">
+        <tbody>
+          <% @notes.each do |note| %>
+            <tr>
+              <td style="width: 15%;">
+                <% if (note.requester != note.user)&&(note.is_annonymous == true) %>
+                  <%= image_tag("no_image.jpg", size: "100x100") %>
+                  <br><p>匿名さん</p>
+                <% elsif note.requester != note.user %>
+                  <%= attachment_image_tag(note.requester, :profile_image, :fill, 100, 100, fallback: "no_image.jpg") %>
+                  <br><%= link_to note.requester.name, user_path(note.requester) %>
+                <% else %>
+                  <%= attachment_image_tag(note.user, :profile_image, :fill, 100, 100, fallback: "no_image.jpg") %>
+                  <br><%= note.user.name %>
+                <% end %>
+              </td>
+              <td style="width: 60%;"><%= note.comment %></td>
+              <td style="width: 25%;">
+                <%= link_to 'Show', user_creator_note_path(@user, note), class: "btn btn-block btn-primary" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <div class='col-lg-2 offset-lg-1'>
+      <%= render 'public/users/info', user: @user %>
+    </div>
+  </div>
+</div>

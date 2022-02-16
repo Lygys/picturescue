@@ -42,10 +42,10 @@ class Public::CreatorNotesController < ApplicationController
     @user = User.find(params[:user_id])
     @note = CreatorNote.find_by(id: params[:id], user_id: @user.id)
     if @note.update(creator_note_params)
-      redirect_to user_creator_note_path(@user, @note)
+      redirect_to user_creator_note_path(@user, @note), notice: "創作メモを編集しました"
     else
-      flash.now[:alert] = "返信メッセージを送れませんでした"
-      request.referer
+      flash.now[:alert] = "創作メモを変更できませんでした"
+      render 'edit'
     end
   end
 
@@ -76,7 +76,7 @@ class Public::CreatorNotesController < ApplicationController
   private
 
   def creator_note_params
-    params.require(:post_request).permit(:comment, :requester_id, :is_annonymous)
+    params.require(:creator_note).permit(:comment, :requester_id, :is_annonymous)
   end
 
 end

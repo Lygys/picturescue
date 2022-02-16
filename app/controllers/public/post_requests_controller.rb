@@ -33,6 +33,7 @@ class Public::PostRequestsController < ApplicationController
   def show
     @user = User.find(params[:user_id])
     @post_request = PostRequest.find_by(id: params[:id], host_id: @user.id)
+    @note = CreatorNote.new
   end
 
   ###リクエストを受けた人のためのアクション

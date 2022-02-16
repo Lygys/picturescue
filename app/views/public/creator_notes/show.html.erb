@@ -1,0 +1,39 @@
+<div class='container'>
+   <div class='row'>
+    <div class='col-lg-9'>
+      <table class="table table-borderless my-4">
+        <tbody>
+          <tr>
+            <td style="width: 15%;">
+              <% if (@note.requester != @note.user)&&(@note.is_annonymous == true) %>
+                <%= image_tag("no_image.jpg", size: "100x100") %>
+                <br><p>匿名さん</p>
+              <% elsif @note.requester != @note.user %>
+                <%= attachment_image_tag(@note.requester, :profile_image, :fill, 100, 100, fallback: "no_image.jpg") %>
+                <br><%= link_to @note.requester.name, user_path(@note.requester) %>
+              <% else %>
+                <%= attachment_image_tag(@note.user, :profile_image, :fill, 100, 100, fallback: "no_image.jpg") %>
+                <br><%= @note.user.name %>
+              <% end %>
+            </td>
+            <td style="width: 65%;">
+              <%= @note.comment %>
+              <% if @note.user == current_user %>
+                <br><%= link_to 'Edit', edit_user_creator_note_path(@user, @note), class: "btn btn-sm btn-success" %>
+              <% end %>
+            </td>
+            <td style="width: 20%;">
+              <%= link_to 'Creator Notes', user_creator_notes_path(@user), class: "btn btn-block btn-primary" %>
+              <% if @note.user == current_user %>
+                <%= link_to 'Destroy', user_creator_note_path(@user, @note), method: :delete, class: "btn btn-block btn-danger" %>
+              <% end %>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class='col-lg-2 offset-lg-1'>
+      <%= render 'public/users/info', user: @user %>
+    </div>
+  </div>
+</div>

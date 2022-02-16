@@ -83,8 +83,6 @@
   </tr>
 </table>
 
-<% if @user == current_user %>
-  <div class='row ml-5'>
-    <%= link_to '',edit_user_path(current_user), class: "form-group btn btn-outline-secondary btn-block fas fa-user-cog" %>
-  </div>
+<% if user == current_user %>
+  <%= link_to '',edit_user_path(current_user), class: "form-group btn btn-outline-secondary btn-block fas fa-user-cog ml-5" %>
 <% end %>

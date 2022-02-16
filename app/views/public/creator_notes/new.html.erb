@@ -1,0 +1,17 @@
+<div class='container'>
+   <div class='row'>
+    <div class='col-md-8 mx-auto'>
+      <%= form_with(model:[@user, @note], local:true) do |f| %>
+        <%= render 'layouts/errors', obj: @note %>
+        <%= f.hidden_field :requester_id, value: @user.id %>
+        <div class="form-group">
+          <%= f.label :comment %>
+          <%= f.text_area :comment, class: 'form-control', style: 'height: 300px;' %>
+        </div>
+        <div class="form-group">
+          <%= f.submit "送信", class: 'btn btn-success' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
