@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class CreaterNoteTest < ActiveSupport::TestCase
+class CreatorNoteTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

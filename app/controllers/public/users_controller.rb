@@ -1,6 +1,6 @@
 class Public::UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :ensure_correct_user, only: [:edit, :update, :potential_followers]
+  before_action :ensure_correct_user, only: [:edit, :update, :potential_followers, :open_request_box, :close_request_box, :open_creator_notes, :close_creator_notes]
 
   def ensure_correct_user
     @user = User.find(params[:id])
@@ -65,20 +65,24 @@ class Public::UsersController < ApplicationController
   end
 
   def open_request_box
-    current_user.update(is_open_to_requests: true)
+    @user.update(is_open_to_requests: true)
     redirect_to request.referer
   end
 
   def close_request_box
-    current_user.update(is_open_to_requests: false)
+    @user.update(is_open_to_requests: false)
     redirect_to request.referer
   end
 
-  def request_box
-    @user = User.find(params[:id])
-    @request_box = @user.received_requests.order(created_at: :desc).limit(300).page(params[:page]).per(50)
+  def open_creator_notes
+    @user.update(creator_note_is_private: false)
+    redirect_to request.referer
   end
 
+  def close_creator_notes
+    @user.update(creator_note_is_private: true)
+    redirect_to request.referer
+  end
 
   private
 

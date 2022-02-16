@@ -10,6 +10,8 @@ class User < ApplicationRecord
   has_many :post_requests, dependent: :destroy
   has_many :received_requests, class_name: 'PostRequest', foreign_key: 'host_id', dependent: :destroy
 
+  has_many :creator_notes, dependent: :destroy
+  has_many :request_notes, class_name: 'PostRequest', foreign_key: 'requester_id', dependent: :destroy
 
   has_many :follow_requests
   has_many :potential_followings, through: :follow_requests, source: :follow, dependent: :destroy

@@ -1,4 +1,13 @@
 class Public::PostRequestsController < ApplicationController
+  before_action :ensure_correct_user, only: [:update, :reset]
+
+  def ensure_correct_user
+    @user = User.find(params[:user_id])
+    unless @user == current_user
+      redirect_to user_path(current_user)
+    end
+  end
+
   def new
     @post_request = PostRequest.new
     @user = User.find(params[:user_id])
@@ -9,11 +18,16 @@ class Public::PostRequestsController < ApplicationController
     @post_request = current_user.post_requests.new(post_request_params)
     @post_request.host_id = @user.id
     if @post_request.save
-      redirect_to request_box_user_path(@user)
+      redirect_to user_post_requests_path(@user), notice: "リクエストを送りました"
     else
       @user = User.find(params[:user_id])
       render 'new'
     end
+  end
+
+  def index
+    @user = User.find(params[:user_id])
+    @request_box = @user.received_requests.order(created_at: :desc).page(params[:page]).per(50)
   end
 
   def show
@@ -26,7 +40,6 @@ class Public::PostRequestsController < ApplicationController
     @user = User.find(params[:user_id])
     @post_request = PostRequest.find_by(id: params[:id], host_id: @user.id)
     if @post_request.update(post_request_params)
-      flash.now[:alert] = "返信メッセージを送りました"
       redirect_to user_post_request_path(@user, @post_request)
     else
       flash.now[:alert] = "返信メッセージを送れませんでした"
@@ -38,15 +51,27 @@ class Public::PostRequestsController < ApplicationController
   def destroy
     @user = User.find(params[:user_id])
     @post_request = PostRequest.find_by(id: params[:id], host_id: @user.id)
+    unless @post_request.user == current_user
+      redirect_to user_path(current_user)
+    end
     if @post_request.destroy
-      redirect_to request_box_user_path(@user)
+      redirect_to user_post_requests_path(@user), notice: "リクエストを削除しました"
     else
       flash.now[:alert] = "リクエストを削除できませんでした"
       request.referer
     end
   end
 
-
+  def reset
+    @user = User.find(params[:user_id])
+    @post_requests = PostRequest.where(host_id: @user.id)
+    if @post_requests.destroy_all
+      redirect_to user_post_requests_path(@user), notice: "お題箱をリセットしました"
+    else
+      flash.now[:alert] = "お題箱をリセットできませんでした"
+      request.referer
+    end
+  end
 
 
 

@@ -13,11 +13,19 @@
   </tr>
   <% if user == current_user %>
     <tr>
-      <th><%= link_to "お題箱", request_box_user_path(user), class: "btn btn-primary" %></th>
-      <% if user.is_open_to_requests == false %>
-        <th><%= link_to "Open", open_request_box_user_path(user), method: :patch, class: "btn btn-success" %></th>
+      <th><%= link_to "創作メモ", user_creator_notes_path(user), class: "btn btn-primary" %></th>
+      <% if user.creator_note_is_private == true %>
+        <th>非公開　<%= link_to "Open", open_creator_notes_user_path(user), method: :patch, class: "btn btn-success" %></th>
       <% else %>
-        <th><%= link_to "Close", close_request_box_user_path(user), method: :patch, class: "btn btn-secondary" %></th>
+        <th>公開中　<%= link_to "Close", close_creator_notes_user_path(user), method: :patch, class: "btn btn-secondary" %></th>
+      <% end %>
+    </tr>
+    <tr>
+      <th><%= link_to "お題箱", user_post_requests_path(user), class: "btn btn-primary" %></th>
+      <% if user.is_open_to_requests == false %>
+        <th>停止中　<%= link_to "Open", open_request_box_user_path(user), method: :patch, class: "btn btn-success" %></th>
+      <% else %>
+        <th>募集中　<%= link_to "Close", close_request_box_user_path(user), method: :patch, class: "btn btn-secondary" %></th>
       <% end %>
     </tr>
     <tr>
@@ -26,7 +34,7 @@
     </tr>
   <% elsif (current_user.following?(user))&&(user.following?(current_user)) %>
     <tr>
-      <th><%= link_to "お題箱", request_box_user_path(user), class: "btn btn-primary" %></th>
+      <th><%= link_to "お題箱", user_post_requests_path(user), class: "btn btn-primary" %></th>
       <% if user.is_open_to_requests == true %>
         <th><%= link_to "Post", new_user_post_request_path(user), class: "btn btn-success" %></th>
       <% else %>
@@ -38,6 +46,14 @@
       <th>相互フォロー</th>
     </tr>
   <% elsif current_user.following?(user) %>
+    <tr>
+      <th><%= link_to "お題箱", user_post_requests_path(user), class: "btn btn-primary" %></th>
+      <% if user.is_open_to_requests == true %>
+        <th><%= link_to "Post", new_user_post_request_path(user), class: "btn btn-success" %></th>
+      <% else %>
+        <th class="py-3 text-secondary">募集停止中</th>
+      <% end %>
+    </tr>
     <tr>
       <th>relationship</th>
       <th>フォロー中</th>

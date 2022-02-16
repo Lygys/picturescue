@@ -1,0 +1,34 @@
+<div class='container'>
+   <div class='row'>
+    <div class='col-lg-9'>
+      <% if (@user == current_user)&&(@request_box.present?) %>
+        <%= link_to "お題箱をリセット", reset_user_post_requests_path(@user), method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-danger mx-3" %>
+      <% end %>
+      <table class="table my-4">
+        <tbody>
+          <% @request_box.each do |request| %>
+            <tr>
+              <td style="width: 15%;">
+                <% if (request.is_annonymous == true)&&(request.user != current_user) %>
+                  <%= image_tag("no_image.jpg", size: "100x100") %>
+                  <br><p>匿名さん</p>
+                <% else %>
+                  <%= attachment_image_tag(request.user, :profile_image, :fill, 100, 100, fallback: "no_image.jpg") %>
+                  <br><%= link_to request.user.name, user_path(request.user) %>
+                <% end %>
+              </td>
+              <td style="width: 70%;"><%= request.comment %></td>
+              <td style="width: 15%;">
+                <%= link_to 'Show', user_post_request_path(@user, request), class: "btn btn-block btn-primary" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <div class="py-2 d-flex align-items-center justify-content-center"><%= paginate @request_box %></div>
+    </div>
+    <div class='col-lg-2 offset-lg-1'>
+      <%= render 'public/users/info', user: @user %>
+    </div>
+  </div>
+</div>
