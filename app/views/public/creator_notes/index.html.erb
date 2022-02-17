@@ -4,7 +4,7 @@
       <div class="text-right">
         <% if @user == current_user %>
           <%= link_to new_user_creator_note_path(@user) do %>
-            <button type="button" class="btn btn-primary rounded-circle p-0" style="width:3rem; height:3rem;">＋</button>
+            <button type="button" class="btn btn-success rounded-circle p-0" style="width:3rem; height:3rem;">＋</button>
           <% end %>
           <% if @notes.present? %>
             <%= link_to "創作メモをリセット", reset_user_creator_notes_path(@user), method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-danger mx-3" %>

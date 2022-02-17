@@ -1,4 +1,5 @@
 class Public::CreatorNotesController < ApplicationController
+  before_action :authenticate_user!
   before_action :ensure_correct_user, only: [:new, :create, :edit, :update, :destroy, :reset]
 
   def ensure_correct_user

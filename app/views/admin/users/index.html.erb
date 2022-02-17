@@ -1,0 +1,19 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-6">
+      <h3>報告されたユーザー</h3>
+      <table class='table my-4'>
+        <tbody>
+          <% @users.each do |user| %>
+            <tr>
+              <td><%= user.name %></td>
+              <td><%= user.recieved_reports.count %>件の報告</td>
+              <td><%= link_to "Show", admin_user_path(user), class: "btn btn-primary btn-block" %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <div class="py-2 d-flex align-items-center justify-content-center"><%= paginate @users %></div>
+    </div>
+  </div>
+</div>

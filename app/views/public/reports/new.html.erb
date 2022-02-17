@@ -1,0 +1,29 @@
+<div class='container'>
+   <div class='row'>
+    <div class='col-md-8 mx-auto'>
+      <h3>ユーザー名:<%= @user.name %>さんを管理者に報告します</h3>
+      <%= form_with(model:[@user, @report], local:true) do |f| %>
+        <%= render 'layouts/errors', obj: @report %>
+        <%= f.hidden_field :offender_id, value: @user.id %>
+        <div class="check_box">
+          <label>該当する項目があればチェックしてください（複数選択可）</label>
+          <%= f.collection_check_boxes(:offense_ids, Offense.all, :id, :name) do |offense| %>
+            <div>
+             <%= offense.label do %>
+               <%= offense.check_box %>
+               <%= offense.text %>
+             <% end %>
+            </div>
+          <% end %>
+        </div>
+        <div class="form-group">
+          <label>報告内容(問題のある投稿を明示してください)</label>
+          <%= f.text_area :comment, class: 'form-control', style: 'height: 300px;' %>
+        </div>
+        <div class="form-group">
+          <%= f.submit "送信", class: 'btn btn-success' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

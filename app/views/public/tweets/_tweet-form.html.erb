@@ -1,7 +1,7 @@
 
 <%= form_with(model: @tweet, local:true) do |f| %>
   <div class="form-group">
-    <%= f.text_area :tweet, class: 'col-md-12 form-control', style: 'height: 70px;' %>
+    <%= f.text_area :tweet, class: 'col-md-12 form-control', style: 'height: 90px;' %>
   </div>
   <%= f.submit "Tweet", class: 'btn btn-primary mb-5' %>
 <% end %>

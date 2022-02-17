@@ -1,0 +1,30 @@
+<div class='container'>
+  <div class='row'>
+    <div class='col-lg-9'>
+      <div class="my-4">
+        <%= form_with model: @offense, url: admin_offenses_path, local:true do |f| %>
+          <%= render 'layouts/errors', obj: @offense %>
+          <div class="d-flex form-group">
+            <%= f.text_field :name, class: 'form-control' %>
+            <%= f.submit "追加", class: 'mx-3 btn btn-primary' %>
+          </div>
+        <% end %>
+      </div>
+      <table class="table my-4">
+        <tbody>
+          <% @offenses.each do |offense| %>
+            <tr>
+              <td style="width: 75%;">
+                <%= offense.name %>
+              </td>
+              <td style="width: 25%;">
+                <%= link_to "Edit", edit_admin_offense_path(offense), class: "btn btn-block btn-success" %>
+                <%= link_to "Destroy", admin_offense_path(offense), method: :delete, class: "btn btn-block btn-danger" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

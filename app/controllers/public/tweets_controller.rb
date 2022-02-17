@@ -22,10 +22,7 @@ class Public::TweetsController < ApplicationController
   #current_userのタイムライン
   def index
     @tweet = Tweet.new
-    followings = current_user.followings.all.ids
-    followings.push(current_user.id)
-    tweets = Tweet.where(user_id: followings)
-    @tweets = tweets.order(created_at: :desc).limit(300).page(params[:page]).per(50)
+    @tweets = Tweet.timeline(current_user).order(created_at: :desc).limit(500).page(params[:page]).per(50)
   end
 
   def show

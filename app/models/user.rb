@@ -13,6 +13,9 @@ class User < ApplicationRecord
   has_many :creator_notes, dependent: :destroy
   has_many :request_notes, class_name: 'PostRequest', foreign_key: 'requester_id', dependent: :destroy
 
+  has_many :reports, dependent: :destroy
+  has_many :recieved_reports, class_name: 'Report', foreign_key: 'offender_id', dependent: :destroy
+
   has_many :follow_requests
   has_many :potential_followings, through: :follow_requests, source: :follow, dependent: :destroy
   has_many :reverse_of_follow_requests, class_name: 'FollowRequest', foreign_key: 'follow_id'
@@ -90,5 +93,14 @@ class User < ApplicationRecord
   def remove(other_user)
     relationship = Relationship.find_by(user_id: self.id, follow_id: other_user.id)
     relationship.destroy if relationship
+  end
+
+  def self.extract_offenders
+    reports = Report.all
+    offender_ids = []
+    reports.each do |report|
+      offender_ids.push(report.offender_id)
+    end
+    return User.where(id: offender_ids)
   end
 end

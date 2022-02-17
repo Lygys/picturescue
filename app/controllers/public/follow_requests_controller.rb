@@ -1,4 +1,5 @@
 class Public::FollowRequestsController < ApplicationController
+  before_action :authenticate_user!
 
   def create
     @user = User.find(params[:follow_id])

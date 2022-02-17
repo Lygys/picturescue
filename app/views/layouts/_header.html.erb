@@ -14,6 +14,7 @@
           <ul class="navbar-nav ml-auto">
             <% if admin_signed_in? %>
               <li><%= link_to '会員一覧', admin_users_path, class: "btn btn-light mx-2" %></li>
+              <li><%= link_to '報告タグ一覧', admin_offenses_path, class: "btn btn-light mx-2" %></li>
               <li><%= link_to 'ログアウト', destroy_admin_session_path, method: :delete, class: "btn btn-light mx-2" %></li>
             <% elsif user_signed_in? %>
               <li><%= link_to '新規投稿', new_post_path, class: "btn btn-light mx-2" %></li>

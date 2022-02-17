@@ -21,6 +21,7 @@ Rails.application.routes.draw do
 
   scope module: :public do
     resources :users, only: [:index, :show, :edit, :update] do
+      resources :reports, only: [:new, :create]
       resources :post_requests, except: [:edit] do
         delete 'reset', on: :collection
       end
@@ -58,7 +59,16 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :users, only: [:index, :edit, :update]
+    resources :users, only: [:index, :show, :update] do
+      resources :posts, only:[:index, :show, :destroy] do
+      end
+      member do
+        delete 'destroy_all_posts'
+        delete 'destroy_all_tweets'
+        delete 'destroy_all_comments'
+      end
+    end
+    resources :offenses, only: [:create, :index, :edit, :update, :destroy]
   end
 
 end

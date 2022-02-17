@@ -1,0 +1,32 @@
+<div class='container'>
+   <div class='row'>
+    <div class='col-lg-9'>
+      <div class="d-flex inline-block">
+        <h3 class="font-weight-bold">投稿一覧</h3>
+        <h5 class="pt-2">(全<%= @all_posts.count %>件)</h5>
+      </div>
+      <div class ="d-inline-flex flex-wrap">
+        <% @posts.each do |post| %>
+          <div class= "px-3 py-3">
+            <% if post.post_image.present? %>
+              <div>
+                <%= link_to post_path(post) do %>
+                  <%= attachment_image_tag(post, :post_image, :fill, 160, 128) %>
+                <% end %>
+              </div>
+              <p class="font-weight-bold my-2"><%= post.title %></p>
+            <% else %>
+              <div class="d-flex justify-content-center align-items-center" style="width: 160px; height: 128px;">
+                <%= link_to post_path(post) do %>
+                  <h4 class="font-weight-bold"><%= post.title %></h4>
+                <% end %>
+              </div>
+              <p class="my-2">text-only</p>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+      <div class="py-2 d-flex align-items-center justify-content-center"><%= paginate @posts %></div>
+    </div>
+  </div>
+</div>

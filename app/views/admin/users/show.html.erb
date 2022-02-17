@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-9">
+      <table class='table my-4'>
+        <div>
+          <%= link_to "Back", admin_users_path, class: "btn btn-primary" %>
+          <%= link_to "投稿一覧", admin_user_posts_path(@user), class: "btn btn-success ml-4" %>
+          <%= link_to "投稿全削除", destroy_all_posts_admin_user_path(@user), method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-danger ml-4" %>
+          <%= link_to "ツイート全削除", destroy_all_tweets_admin_user_path(@user), method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-danger ml-4" %>
+          <%= link_to "コメント全削除", destroy_all_comments_admin_user_path(@user), method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-danger ml-4" %>
+        </div>
+
+        <tbody>
+          <% @reports.each do |report| %>
+            <tr>
+              <td style="width: 15%;">
+                <%= attachment_image_tag(report.user, :profile_image, :fill, 100, 100, fallback: "no_image.jpg") %>
+                <br><p class="pt-2"><%= report.user.name %></p>
+              </td>
+              <td style="width: 45%;">
+                <% report.offenses.each do |offense| %>
+                  <%= offense.name %><br>
+                <% end %>
+              </td>
+              <td style="width: 40%;">
+                <%= report.comment %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <div class="py-2 d-flex align-items-center justify-content-center"><%= paginate @reports %></div>
+    </div>
+  </div>
+</div>

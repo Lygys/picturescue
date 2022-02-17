@@ -1,4 +1,5 @@
 class Public::PostRequestsController < ApplicationController
+  before_action :authenticate_user!
   before_action :ensure_correct_user, only: [:update, :reset]
 
   def ensure_correct_user

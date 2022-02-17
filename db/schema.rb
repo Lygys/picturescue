@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_16_032759) do
+ActiveRecord::Schema.define(version: 2022_02_17_062728) do
 
   create_table "admins", force: :cascade do |t|
     t.string "email", default: "test_admin@gmail.com", null: false
@@ -76,6 +76,12 @@ ActiveRecord::Schema.define(version: 2022_02_16_032759) do
     t.index ["user_id"], name: "index_follow_requests_on_user_id"
   end
 
+  create_table "offenses", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "post_requests", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "host_id", null: false
@@ -115,6 +121,26 @@ ActiveRecord::Schema.define(version: 2022_02_16_032759) do
     t.index ["follow_id"], name: "index_relationships_on_follow_id"
     t.index ["user_id", "follow_id"], name: "index_relationships_on_user_id_and_follow_id", unique: true
     t.index ["user_id"], name: "index_relationships_on_user_id"
+  end
+
+  create_table "report_offenses", force: :cascade do |t|
+    t.integer "report_id", null: false
+    t.integer "offense_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["offense_id"], name: "index_report_offenses_on_offense_id"
+    t.index ["report_id"], name: "index_report_offenses_on_report_id"
+  end
+
+  create_table "reports", force: :cascade do |t|
+    t.text "comment", null: false
+    t.integer "user_id", null: false
+    t.integer "offender_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "is_finished", default: false, null: false
+    t.index ["offender_id"], name: "index_reports_on_offender_id"
+    t.index ["user_id"], name: "index_reports_on_user_id"
   end
 
   create_table "tags", force: :cascade do |t|

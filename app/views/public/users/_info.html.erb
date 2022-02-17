@@ -7,7 +7,7 @@
 	    <div class="d-flex">
 	      <%= link_to "Posts", user_path(user), class: "btn btn-sm btn-success mr-2" %>
 	      <%= link_to "Tweets", tweets_user_path(user), class: "btn btn-sm btn-primary mr-2" %>
-        <%= link_to "favs", favorite_tweets_user_path(user), class: "btn btn-sm btn-danger" %>
+        <%= link_to "Favs", favorite_tweets_user_path(user), class: "btn btn-sm btn-danger" %>
 	    </div>
 	   </th>
   </tr>
@@ -97,4 +97,6 @@
 
 <% if user == current_user %>
   <%= link_to '',edit_user_path(current_user), class: "form-group btn btn-outline-secondary btn-block fas fa-user-cog ml-5" %>
+<% else %>
+  <%= link_to '報告', new_user_report_path(user), class: "form-group btn btn-danger btn-block" %>
 <% end %>
