@@ -5,7 +5,6 @@
 	  <th>
 	    <p class="py-1"><%= user.name %></p>
 	    <div class="d-flex">
-	      <%= link_to "Posts", user_path(user), class: "btn btn-sm btn-success mr-2" %>
 	      <%= link_to "Tweets", tweets_user_path(user), class: "btn btn-sm btn-primary mr-2" %>
         <%= link_to "Favs", favorite_tweets_user_path(user), class: "btn btn-sm btn-danger" %>
 	    </div>
@@ -14,19 +13,21 @@
   <% if user.is_blocked == false %>
     <% if user == current_user %>
       <tr>
-        <th><%= link_to "創作メモ", user_creator_notes_path(user), class: "btn btn-primary" %></th>
+        <th><%= link_to "創作メモ", user_creator_notes_path(user), class: "btn btn-primary my-3" %></th>
         <% if user.creator_note_is_private == true %>
-          <th>非公開　<%= link_to "Open", open_creator_notes_user_path(user), method: :patch, class: "btn btn-success" %></th>
+          <th>非公開　<%= link_to "Open", open_creator_notes_user_path(user), method: :patch, class: "btn btn-success my-1" %></th>
         <% else %>
-          <th>公開中　<%= link_to "Close", close_creator_notes_user_path(user), method: :patch, class: "btn btn-secondary" %></th>
+          <th>公開中　<%= link_to "Close", close_creator_notes_user_path(user), method: :patch, class: "btn btn-secondary my-1" %></th>
         <% end %>
       </tr>
       <tr>
-        <th><%= link_to "お題箱", user_post_requests_path(user), class: "btn btn-primary" %></th>
+        <th><%= link_to "お題箱", user_post_requests_path(user), class: "btn btn-primary my-3" %></th>
         <% if user.is_open_to_requests == false %>
-          <th>停止中　<%= link_to "Open", open_request_box_user_path(user), method: :patch, class: "btn btn-success" %></th>
+          <th>停止中
+          <br><%= link_to "Open", open_request_box_user_path(user), method: :patch, class: "btn btn-success my-1" %></th>
         <% else %>
-          <th>募集中　<%= link_to "Close", close_request_box_user_path(user), method: :patch, class: "btn btn-secondary" %></th>
+          <th>募集中
+          <br><%= link_to "Close", close_request_box_user_path(user), method: :patch, class: "btn btn-secondary my-1" %></th>
         <% end %>
       </tr>
       <tr>
@@ -85,7 +86,7 @@
   <% end %>
   <tr>
 	  <th>total posts</th>
-	  <th><%= user.posts.count %></th>
+	  <th><%= link_to user.posts.count, user_path(user) %></th>
   </tr>
   <tr>
     <th>following</th>

@@ -4,7 +4,7 @@
       <tr>
         <td style="width: 20%;">
           <%= attachment_image_tag(user, :profile_image, :fill, 100, 100, fallback: "no_image.jpg") %>
-          <br><p class="pt-2 font-weight-bold"><%= user.name %></p>
+          <br><p class="pt-2 font-weight-bold"><%= link_to user.name, tweets_user_path(user) %></p>
         </td>
         <td class="py-4 lead" style="width: 20%;">
           Posts: <%= link_to user.posts.count, user_path(user) %>

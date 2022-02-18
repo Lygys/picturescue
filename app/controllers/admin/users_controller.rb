@@ -10,13 +10,6 @@ class Admin::UsersController < ApplicationController
     @reports = @user.recieved_reports.page(params[:page]).per(20)
   end
 
-  def edit
-    @user = User.find(params[:id])
-    @user.update()
-    redirect_to request.referer
-  end
-
-
   def destroy_all_tweets
     @user = User.find(params[:id])
     @tweets = Tweet.where(user_id: @user.id)
@@ -50,9 +43,28 @@ class Admin::UsersController < ApplicationController
     end
   end
 
+  def clear_all_reports
+    @user = User.find(params[:id])
+    @reports = Report.where(offender_id: @user.id, is_finished: true)
+    if @reports.destroy_all
+      redirect_to request.referer, notice: "処理済の報告を削除しました"
+    else
+      flash.now[:alert] = "処理済の報告を削除できませんでした"
+      redirect_to request.referer
+    end
+  end
+
   def block
     @user = User.find(params[:id])
+    @reports = Report.where(offender_id: @user.id)
+    @tweets = Tweet.where(user_id: @user.id)
+    @comments = Comment.where(user_id: @user.id)
+    @posts = Post.where(user_id: @user.id)
     if @user.update(is_blocked: true)
+      @reports.destroy_all
+      @tweets.destroy_all
+      @comments.destroy_all
+      @posts.destroy_all
       redirect_to request.referer, notice: "ユーザーをブロックしました"
     else
       flash.now[:alert] = "ユーザーをブロックできませんでした"

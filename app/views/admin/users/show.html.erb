@@ -1,34 +1,42 @@
 <div class="container">
   <div class="row">
-    <div class="col-lg-9">
+    <div class="col-lg-12">
       <table class='table my-4'>
         <div>
           <%= link_to "ユーザー一覧", admin_users_path, class: "btn btn-primary" %>
-          <%= link_to "投稿一覧", admin_user_posts_path(@user), class: "btn btn-success ml-3" %>
-          <%= link_to "投稿全削除", destroy_all_posts_admin_user_path(@user), method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-danger ml-3" %>
-          <%= link_to "ツイート全削除", destroy_all_tweets_admin_user_path(@user), method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-danger ml-3" %>
-          <%= link_to "コメント全削除", destroy_all_comments_admin_user_path(@user), method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-danger ml-3" %>
+          <%= link_to "投稿一覧", admin_user_posts_path(@user), class: "btn btn-success ml-4" %>
+          <%= link_to "投稿全削除", destroy_all_posts_admin_user_path(@user), method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-danger ml-4" %>
+          <%= link_to "ツイート全削除", destroy_all_tweets_admin_user_path(@user), method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-danger ml-4" %>
+          <%= link_to "コメント全削除", destroy_all_comments_admin_user_path(@user), method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-danger ml-4" %>
+          <%= link_to "処理済報告リセット", clear_all_reports_admin_user_path(@user), method: :delete, class: "btn btn-warning ml-4" %>
           <% if @user.is_blocked == false %>
-            <%= link_to "ブロック", block_admin_user_path(@user), method: :patch, data: { confirm: '本当にブロックしますか？' }, class: "btn btn-secondary ml-3" %>
+            <%= link_to "ブロック", block_admin_user_path(@user), method: :patch, data: { confirm: '本当にブロックしますか？' }, class: "btn btn-secondary ml-4" %>
           <% else %>
-            <%= link_to "ブロック解除", remove_block_admin_user_path(@user), method: :patch, data: { confirm: '本当に解除しますか？' }, class: "btn btn-secondary ml-3" %>
+            <%= link_to "ブロック解除", remove_block_admin_user_path(@user), method: :patch, data: { confirm: '本当に解除しますか？' }, class: "btn btn-secondary ml-4" %>
           <% end %>
         </div>
 
         <tbody>
           <% @reports.each do |report| %>
             <tr>
-              <td style="width: 15%;">
+              <td style="width: 10%;">
                 <%= attachment_image_tag(report.user, :profile_image, :fill, 100, 100, fallback: "no_image.jpg") %>
                 <br><p class="pt-2"><%= report.user.name %></p>
               </td>
-              <td style="width: 45%;">
+              <td style="width: 40%;">
                 <% report.offenses.each do |offense| %>
                   <%= offense.name %><br>
                 <% end %>
               </td>
               <td style="width: 40%;">
                 <%= report.comment %>
+              </td>
+              <td style="width: 10%;">
+                <% if report.is_finished == false %>
+                  <%= link_to "未処理",admin_user_report_path(@user, report), method: :patch, data: { confirm: '本当に処理済にしますか？' }, class: "btn btn-secondary" %>
+                <% else %>
+                  <span class="text-success font-weight-bold">処理済</span>
+                <% end %>
               </td>
             </tr>
           <% end %>

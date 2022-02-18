@@ -17,6 +17,19 @@ end
 
 
 Admin.create!(
-   email: ENV['email']'test_admin@gmail.com',
-   password: ENV['password']"testtest"
+    email: ENV['email'],
+    password: ENV['password']
+)
+
+
+Offense.create!(
+  name: "規約違反の投稿がある"
+)
+
+Offense.create!(
+  name: "規約違反のツイートがある"
+)
+
+Offense.create!(
+  name: "規約違反のコメントがある"
 )
