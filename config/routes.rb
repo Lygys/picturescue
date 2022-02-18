@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   root to: 'homes#top'
 
   get 'search_page' => 'homes#search_page'
+  get 'block_page' => 'homes#block_page'
   get 'search' => 'searches#search'
 
   scope module: :public do
@@ -59,13 +60,15 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :users, only: [:index, :show, :update] do
+    resources :users, only: [:index, :show] do
       resources :posts, only:[:index, :show, :destroy] do
       end
       member do
         delete 'destroy_all_posts'
         delete 'destroy_all_tweets'
         delete 'destroy_all_comments'
+        patch 'block'
+        patch 'remove_block'
       end
     end
     resources :offenses, only: [:create, :index, :edit, :update, :destroy]

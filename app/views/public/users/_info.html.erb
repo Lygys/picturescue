@@ -11,69 +11,76 @@
 	    </div>
 	   </th>
   </tr>
-  <% if user == current_user %>
-    <tr>
-      <th><%= link_to "創作メモ", user_creator_notes_path(user), class: "btn btn-primary" %></th>
-      <% if user.creator_note_is_private == true %>
-        <th>非公開　<%= link_to "Open", open_creator_notes_user_path(user), method: :patch, class: "btn btn-success" %></th>
-      <% else %>
-        <th>公開中　<%= link_to "Close", close_creator_notes_user_path(user), method: :patch, class: "btn btn-secondary" %></th>
-      <% end %>
-    </tr>
-    <tr>
-      <th><%= link_to "お題箱", user_post_requests_path(user), class: "btn btn-primary" %></th>
-      <% if user.is_open_to_requests == false %>
-        <th>停止中　<%= link_to "Open", open_request_box_user_path(user), method: :patch, class: "btn btn-success" %></th>
-      <% else %>
-        <th>募集中　<%= link_to "Close", close_request_box_user_path(user), method: :patch, class: "btn btn-secondary" %></th>
-      <% end %>
-    </tr>
-    <tr>
-      <th>follow request</th>
-      <th class="py-4"><%= link_to user.potential_followers.count, potential_followers_user_path(user) %></th>
-    </tr>
-  <% elsif (current_user.following?(user))&&(user.following?(current_user)) %>
-    <% if user.creator_note_is_private == false %>
+  <% if user.is_blocked == false %>
+    <% if user == current_user %>
       <tr>
         <th><%= link_to "創作メモ", user_creator_notes_path(user), class: "btn btn-primary" %></th>
-        <th class="py-3">公開中</th>
+        <% if user.creator_note_is_private == true %>
+          <th>非公開　<%= link_to "Open", open_creator_notes_user_path(user), method: :patch, class: "btn btn-success" %></th>
+        <% else %>
+          <th>公開中　<%= link_to "Close", close_creator_notes_user_path(user), method: :patch, class: "btn btn-secondary" %></th>
+        <% end %>
       </tr>
-    <% end %>
-    <tr>
-      <th><%= link_to "お題箱", user_post_requests_path(user), class: "btn btn-primary" %></th>
-      <% if user.is_open_to_requests == true %>
-        <th><%= link_to "Post", new_user_post_request_path(user), class: "btn btn-success" %></th>
-      <% else %>
-        <th class="py-3 text-secondary">募集停止中</th>
-      <% end %>
-    </tr>
-    <tr>
-      <th>relationship</th>
-      <th>相互フォロー</th>
-    </tr>
-  <% elsif current_user.following?(user) %>
-    <% if user.creator_note_is_private == false %>
       <tr>
-        <th><%= link_to "創作メモ", user_creator_notes_path(user), class: "btn btn-primary" %></th>
-        <th class="py-3">公開中</th>
+        <th><%= link_to "お題箱", user_post_requests_path(user), class: "btn btn-primary" %></th>
+        <% if user.is_open_to_requests == false %>
+          <th>停止中　<%= link_to "Open", open_request_box_user_path(user), method: :patch, class: "btn btn-success" %></th>
+        <% else %>
+          <th>募集中　<%= link_to "Close", close_request_box_user_path(user), method: :patch, class: "btn btn-secondary" %></th>
+        <% end %>
+      </tr>
+      <tr>
+        <th>follow request</th>
+        <th class="py-4"><%= link_to user.potential_followers.count, potential_followers_user_path(user) %></th>
+      </tr>
+    <% elsif (current_user.following?(user))&&(user.following?(current_user)) %>
+      <% if user.creator_note_is_private == false %>
+        <tr>
+          <th><%= link_to "創作メモ", user_creator_notes_path(user), class: "btn btn-primary" %></th>
+          <th class="py-3">公開中</th>
+        </tr>
+      <% end %>
+      <tr>
+        <th><%= link_to "お題箱", user_post_requests_path(user), class: "btn btn-primary" %></th>
+        <% if user.is_open_to_requests == true %>
+          <th><%= link_to "Post", new_user_post_request_path(user), class: "btn btn-success" %></th>
+        <% else %>
+          <th class="py-3 text-secondary">募集停止中</th>
+        <% end %>
+      </tr>
+      <tr>
+        <th>relationship</th>
+        <th>相互フォロー</th>
+      </tr>
+    <% elsif current_user.following?(user) %>
+      <% if user.creator_note_is_private == false %>
+        <tr>
+          <th><%= link_to "創作メモ", user_creator_notes_path(user), class: "btn btn-primary" %></th>
+          <th class="py-3">公開中</th>
+        </tr>
+      <% end %>
+      <tr>
+        <th><%= link_to "お題箱", user_post_requests_path(user), class: "btn btn-primary" %></th>
+        <% if user.is_open_to_requests == true %>
+          <th><%= link_to "Post", new_user_post_request_path(user), class: "btn btn-success" %></th>
+        <% else %>
+          <th class="py-3 text-secondary">募集停止中</th>
+        <% end %>
+      </tr>
+      <tr>
+        <th>relationship</th>
+        <th>フォロー中</th>
+      </tr>
+    <% else %>
+      <tr>
+        <th class="pt-3">follow request</th>
+        <th class="py-4"><%= render 'public/follow_requests/follow-form', user: user %></th>
       </tr>
     <% end %>
-    <tr>
-      <th><%= link_to "お題箱", user_post_requests_path(user), class: "btn btn-primary" %></th>
-      <% if user.is_open_to_requests == true %>
-        <th><%= link_to "Post", new_user_post_request_path(user), class: "btn btn-success" %></th>
-      <% else %>
-        <th class="py-3 text-secondary">募集停止中</th>
-      <% end %>
-    </tr>
-    <tr>
-      <th>relationship</th>
-      <th>フォロー中</th>
-    </tr>
   <% else %>
     <tr>
-      <th class="pt-3">follow request</th>
-      <th class="py-4"><%= render 'public/follow_requests/follow-form', user: user %></th>
+      <th>ステータス</th>
+      <th class="text-danger">ブロック中</th>
     </tr>
   <% end %>
   <tr>
@@ -95,8 +102,10 @@
   </tr>
 </table>
 
-<% if user == current_user %>
-  <%= link_to '',edit_user_path(current_user), class: "form-group btn btn-outline-secondary btn-block fas fa-user-cog ml-5" %>
-<% else %>
-  <%= link_to '報告', new_user_report_path(user), class: "form-group btn btn-danger btn-block" %>
+<% if user.is_blocked == false %>
+  <% if user == current_user %>
+    <%= link_to '',edit_user_path(current_user), class: "form-group btn btn-outline-secondary btn-block fas fa-user-cog ml-5" %>
+  <% else %>
+    <%= link_to '報告', new_user_report_path(user), class: "form-group btn btn-danger btn-block" %>
+  <% end %>
 <% end %>

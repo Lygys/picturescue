@@ -49,4 +49,25 @@ class Admin::UsersController < ApplicationController
       redirect_to request.referer
     end
   end
+
+  def block
+    @user = User.find(params[:id])
+    if @user.update(is_blocked: true)
+      redirect_to request.referer, notice: "ユーザーをブロックしました"
+    else
+      flash.now[:alert] = "ユーザーをブロックできませんでした"
+      redirect_to request.referer
+    end
+  end
+
+  def remove_block
+    @user = User.find(params[:id])
+    if @user.update(is_blocked: false)
+      redirect_to request.referer, notice: "ブロックを解除しました"
+    else
+      flash.now[:alert] = "ブロックを解除できませんでした"
+      redirect_to request.referer
+    end
+  end
+
 end

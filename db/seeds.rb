@@ -17,6 +17,6 @@ end
 
 
 Admin.create!(
-   email: 'test_admin@gmail.com',
-   password: "testtest"
+   email: ENV['email']'test_admin@gmail.com',
+   password: ENV['password']"testtest"
 )

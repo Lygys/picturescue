@@ -1,0 +1,22 @@
+<div class='container'>
+   <div class='row'>
+    <div class='col-lg-9'>
+      <%= link_to "投稿一覧", admin_user_posts_path(@user), class: "btn btn-primary my-4" %>
+      <div class="my-4">
+        <%= attachment_image_tag(@post, :post_image, :fill, 750, 600) %>
+      </div>
+      <div class="mx-5 my-4">
+        <h3 class="my-4"><%= @post.title %></h3>
+     		<h5 class="mb-4">by <%= @user.name %></h5>
+        <p class="my-4 lead"><%= @post.body %></p>
+        <% @post.tags.each do |tag| %>
+          <button class="btn btn-secondary mx-1">#<%= tag.name %></button>
+        <% end %>
+  		</div>
+      <p id="post-<%= @post.id %>-comments-count">コメント件数:<%= @post.comments.count %></p>
+      <table id="Comment-List" class="my-5">
+        <%= render 'public/comments/comment-list', post: @post %>
+      </table>
+    </div>
+  </div>
+</div>
