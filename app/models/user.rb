@@ -101,6 +101,6 @@ class User < ApplicationRecord
     reports.each do |report|
       offender_ids.push(report.offender_id)
     end
-    return User.where(id: offender_ids)
+    User.where(id: offender_ids)
   end
 end

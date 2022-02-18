@@ -30,7 +30,7 @@ class Public::CreatorNotesController < ApplicationController
 
   def index
     @user = User.find(params[:user_id])
-    @notes = @user.creator_notes.order(created_at: :desc).page(params[:page]).per(50)
+    @creator_notes = CreatorNote.where(user_id: @user.id).order(created_at: :desc).page(params[:page]).per(20)
   end
 
   def show

@@ -4,17 +4,16 @@
       <div class="text-right">
         <% if @user == current_user %>
           <%= link_to new_user_creator_note_path(@user) do %>
-            <button type="button" class="btn btn-success rounded-circle p-0" style="width:3rem; height:3rem;">＋</button>
+            <button type="button" class="btn btn-success rounded-circle p-0" style="width:2.5rem; height:2.5rem;">＋</button>
           <% end %>
-          <% if @notes.present? %>
+          <% if @user.creator_notes.present? %>
             <%= link_to "創作メモをリセット", reset_user_creator_notes_path(@user), method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-danger mx-3" %>
           <% end %>
         <% end %>
       </div>
-
       <table class="table my-4">
         <tbody>
-          <% @notes.each do |note| %>
+          <% @creator_notes.each do |note| %>
             <tr>
               <td style="width: 15%;">
                 <% if (note.requester != note.user)&&(note.is_annonymous == true)&&(note.requester != current_user) %>
@@ -37,6 +36,7 @@
               </td>
             </tr>
           <% end %>
+          <div class="py-2 d-flex align-items-center justify-content-center"><%= paginate @creator_notes %></div>
         </tbody>
       </table>
     </div>

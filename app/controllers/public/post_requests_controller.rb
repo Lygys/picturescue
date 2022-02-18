@@ -28,7 +28,7 @@ class Public::PostRequestsController < ApplicationController
 
   def index
     @user = User.find(params[:user_id])
-    @request_box = @user.received_requests.order(created_at: :desc).page(params[:page]).per(50)
+    @request_box = @user.received_requests.order(created_at: :desc).page(params[:page]).per(20)
   end
 
   def show
@@ -53,10 +53,9 @@ class Public::PostRequestsController < ApplicationController
   def destroy
     @user = User.find(params[:user_id])
     @post_request = PostRequest.find_by(id: params[:id], host_id: @user.id)
-    unless @post_request.user == current_user
+    if @post_request.user != current_user
       redirect_to user_path(current_user)
-    end
-    if @post_request.destroy
+    elsif @post_request.destroy
       redirect_to user_post_requests_path(@user), notice: "リクエストを削除しました"
     else
       flash.now[:alert] = "リクエストを削除できませんでした"

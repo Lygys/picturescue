@@ -11,7 +11,7 @@ class Tag < ApplicationRecord
       tags = Tag.where('name LIKE ?', '%' + content + '%')
     end
     post_ids = tags.inject(init = []) {|result, tag| result + tag.posts.ids}
-    return Post.where(id: post_ids)
+    Post.where(id: post_ids)
   end
 
 end
