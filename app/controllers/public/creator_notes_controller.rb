@@ -77,7 +77,6 @@ class Public::CreatorNotesController < ApplicationController
     end
   end
 
-
   private
 
   def creator_note_params

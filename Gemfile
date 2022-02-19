@@ -74,6 +74,8 @@ gem 'bootstrap', '~> 4.5'
 gem 'kaminari','~> 1.2.1'
 gem 'font-awesome-sass', '~> 5.13'
 gem 'dotenv-rails'
-
+group :production do
+  gem 'mysql2'
+end
 
 
