@@ -6,8 +6,7 @@ class HomesController < ApplicationController
   end
 
   def search_page
-    following = current_user.followings.ids
-    @posts = Post.where(user_id: following).order(created_at: :desc).limit(20)
+    @posts = Post.followings_new_posts(current_user).order(created_at: :desc).limit(20)
   end
 
   def block_page

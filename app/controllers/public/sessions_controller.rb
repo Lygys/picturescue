@@ -25,10 +25,6 @@ class Public::SessionsController < Devise::SessionsController
     user_path(current_user)
   end
 
-  def after_sign_up_path_for(resource)
-    user_path(current_user)
-  end
-
   def user_state
     @user = User.find_by(email: params[:user][:email])
     return if !@user

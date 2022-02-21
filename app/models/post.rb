@@ -45,4 +45,8 @@ class Post < ApplicationRecord
     bookmarks.where(user_id: user.id).exists?
   end
 
+  def self.followings_new_posts(user)
+    following = user.followings.ids
+    Post.where(user_id: following)
+  end
 end

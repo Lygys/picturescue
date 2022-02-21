@@ -25,7 +25,7 @@
           <% end %>
         </tbody>
       </table>
-      <div class="py-2 d-flex align-items-center justify-content-center"><%= paginate @request_box %></div>
+      <div class="py-2 pagination-style"><%= paginate @request_box %></div>
     </div>
     <div class='col-lg-2 offset-lg-1'>
       <%= render 'public/users/info', user: @user %>
