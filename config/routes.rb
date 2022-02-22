@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   devise_scope :user do
     get 'user/sign_up', to: 'public/registrations#new', as: :new_user_registration
     post 'user', to: 'public/registrations#create', as: :user_registration
+    post 'users/guest_sign_in', to: 'public/users/sessions#guest_sign_in'
   end
 
   devise_for :admin, skip: [:registrations, :passwords], controllers: {

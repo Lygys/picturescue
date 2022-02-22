@@ -104,7 +104,8 @@
 </table>
 
 <% if user.is_blocked == false %>
-  <% if user == current_user %>
+  <% if user.name == "guest-user" %>
+  <% elsif user == current_user %>
     <%= link_to '',edit_user_path(current_user), class: "form-group btn btn-outline-secondary btn-block fas fa-user-cog ml-5" %>
   <% else %>
     <%= link_to '報告', new_user_report_path(user), class: "form-group btn btn-danger btn-block" %>

@@ -1,13 +1,7 @@
 class Public::UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :ensure_correct_user, only: [:edit, :update, :potential_followers, :open_request_box, :close_request_box, :open_creator_notes, :close_creator_notes]
-
-  def ensure_correct_user
-    @user = User.find(params[:id])
-    unless @user == current_user
-      redirect_to user_path(current_user)
-    end
-  end
+  before_action :ensure_guest_user, only: [:edit]
 
   def index
     @users = User.all.page(params[:page]).per(20)
@@ -88,5 +82,19 @@ class Public::UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:name, :email, :profile_image, :introduction)
+  end
+
+  def ensure_correct_user
+    @user = User.find(params[:id])
+    unless @user == current_user
+      redirect_to user_path(current_user)
+    end
+  end
+
+  def ensure_guest_user
+    @user = User.find(params[:id])
+    if @user.name == "guest-user"
+      redirect_to user_path(current_user) , notice: 'ゲストユーザーはプロフィール編集画面へ遷移できません。'
+    end
   end
 end

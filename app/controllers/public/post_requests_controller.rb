@@ -2,13 +2,6 @@ class Public::PostRequestsController < ApplicationController
   before_action :authenticate_user!
   before_action :ensure_correct_user, only: [:update, :reset]
 
-  def ensure_correct_user
-    @user = User.find(params[:user_id])
-    unless @user == current_user
-      redirect_to user_path(current_user)
-    end
-  end
-
   def new
     @post_request = PostRequest.new
     @user = User.find(params[:user_id])
@@ -82,4 +75,10 @@ class Public::PostRequestsController < ApplicationController
     params.require(:post_request).permit(:comment, :host_comment, :is_annonymous)
   end
 
+  def ensure_correct_user
+    @user = User.find(params[:user_id])
+    unless @user == current_user
+      redirect_to user_path(current_user)
+    end
+  end
 end

@@ -2,13 +2,6 @@ class Public::CreatorNotesController < ApplicationController
   before_action :authenticate_user!
   before_action :ensure_correct_user, only: [:new, :create, :edit, :update, :destroy, :reset]
 
-  def ensure_correct_user
-    @user = User.find(params[:user_id])
-    unless @user == current_user
-      redirect_to user_path(current_user)
-    end
-  end
-
   def new
     @note = CreatorNote.new
   end
@@ -83,4 +76,10 @@ class Public::CreatorNotesController < ApplicationController
     params.require(:creator_note).permit(:comment, :requester_id, :is_annonymous, :evaluation)
   end
 
+  def ensure_correct_user
+    @user = User.find(params[:user_id])
+    unless @user == current_user
+      redirect_to user_path(current_user)
+    end
+  end
 end

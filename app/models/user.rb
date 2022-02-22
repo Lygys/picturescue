@@ -36,6 +36,12 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
 
+  def self.guest
+    find_or_create_by!(name: 'guest-user' ,email: 'guest@example.com') do |user|
+      user.password = SecureRandom.urlsafe_base64
+      user.name = "guest-user"
+    end
+  end
 
   def self.search_for(content, method)
     if method == 'perfect'

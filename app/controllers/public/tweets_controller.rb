@@ -2,13 +2,6 @@ class Public::TweetsController < ApplicationController
   before_action :authenticate_user!
   before_action :ensure_correct_user, only: [:destroy]
 
-  def ensure_correct_user
-    @tweet = Tweet.find(params[:id])
-    unless @tweet.user == current_user
-      redirect_to user_path(current_user)
-    end
-  end
-
   def create
     @tweet = Tweet.new(tweet_params)
     @tweet.user_id = current_user.id
@@ -45,5 +38,12 @@ class Public::TweetsController < ApplicationController
   private
   def tweet_params
     params.require(:tweet).permit(:tweet)
+  end
+
+  def ensure_correct_user
+    @tweet = Tweet.find(params[:id])
+    unless @tweet.user == current_user
+      redirect_to user_path(current_user)
+    end
   end
 end
