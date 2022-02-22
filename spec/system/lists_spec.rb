@@ -19,7 +19,6 @@ describe '新規登録と新規投稿のテスト' do
   describe "ユーザー登録画面(new_user_session_path)のテスト" do
     before do
       visit new_user_registration_path
-      @user = FactoryBot.build(:user)
     end
     context '表示の確認' do
       it 'new_user_registration_pathが"root/user/sign_up"であるか' do
@@ -31,12 +30,13 @@ describe '新規登録と新規投稿のテスト' do
     end
     context '登録処理のテスト' do
       it '登録後のリダイレクト先は正しいか' do
+        @user = FactoryBot.build(:user)
         fill_in 'user[name]', with: @user.name
         fill_in 'user[email]', with: @user.email
         fill_in 'user[password]', with: @user.password
         fill_in 'user[password_confirmation]', with: @user.password
         click_button 'Sign up'
-        expect(page).to have_current_path eq(user_path(@user))
+        expect(page).to have_current_path user_path(User.last.id.to_s)
       end
     end
   end
@@ -83,7 +83,7 @@ describe '新規登録と新規投稿のテスト' do
   end
   describe 'ユーザー詳細画面のテスト' do
     before do
-      visit user_path(@user)
+      visit user_path(user)
     end
     context '表示の確認' do
       it '投稿されたものが表示されているか' do
