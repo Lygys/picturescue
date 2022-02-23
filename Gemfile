@@ -50,10 +50,7 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
 
-  gem 'rubocop', require: false
-  gem 'rubocop-performance', require: false
-  gem 'rubocop-rails', require: false
-  gem 'rubocop-rspec'
+  gem 'rubocop-airbnb'
 end
 
 group :test do
@@ -75,11 +72,9 @@ gem 'refile', require: "refile/rails", github: 'manfe/refile'
 gem "refile-mini_magick"
 gem 'jquery-rails'
 gem 'bootstrap', '~> 4.5'
-gem 'kaminari','~> 1.2.1'
+gem 'kaminari', '~> 1.2.1'
 gem 'font-awesome-sass', '~> 5.13'
 gem 'dotenv-rails'
 group :production do
   gem 'mysql2'
 end
-
-

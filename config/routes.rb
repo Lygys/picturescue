@@ -9,11 +9,10 @@ Rails.application.routes.draw do
   end
 
   devise_for :admin, skip: [:registrations, :passwords], controllers: {
-    sessions: 'admin/sessions'
+    sessions: 'admin/sessions',
   }
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-
 
   root to: 'homes#top'
 
@@ -63,7 +62,7 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :users, only: [:index, :show] do
       resources :reports, only: [:update]
-      resources :posts, only:[:index, :show, :destroy] do
+      resources :posts, only: [:index, :show, :destroy] do
       end
       member do
         delete 'destroy_all_posts'
@@ -76,5 +75,4 @@ Rails.application.routes.draw do
     end
     resources :offenses, only: [:create, :index, :edit, :update, :destroy]
   end
-
 end

@@ -40,7 +40,6 @@ class Public::UsersController < ApplicationController
     @users = @user.followers.all.page(params[:page]).per(20)
   end
 
-
   def bookmarks
     @user = User.find(params[:id])
     @all_bookmarks = @user.bookmark_posts
@@ -94,7 +93,7 @@ class Public::UsersController < ApplicationController
   def ensure_guest_user
     @user = User.find(params[:id])
     if @user.name == "guest-user"
-      redirect_to user_path(current_user) , notice: 'ゲストユーザーはプロフィール編集画面へ遷移できません。'
+      redirect_to user_path(current_user), notice: 'ゲストユーザーはプロフィール編集画面へ遷移できません。'
     end
   end
 end

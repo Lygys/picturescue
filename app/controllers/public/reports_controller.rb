@@ -19,8 +19,8 @@ class Public::ReportsController < ApplicationController
   end
 
   private
+
   def report_params
     params.require(:report).permit(:comment, :offender_id, offense_ids: [])
   end
-
 end

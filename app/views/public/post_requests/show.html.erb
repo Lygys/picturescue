@@ -5,6 +5,7 @@
         <tbody>
           <tr>
             <td style="width: 15%;">
+              <!--匿名投稿かつリクエスト投稿者本人でないなら、匿名表示-->
               <% if (@post_request.is_annonymous == true)&&(@post_request.user != current_user) %>
                 <%= image_tag("no_image.jpg", size: "100x100") %>
                 <br><p>匿名さん</p>
@@ -21,6 +22,7 @@
               <% end %>
             </td>
           </tr>
+          <!--ホストが返信コメントを記入している場合、返信コメントを表示-->
           <% if @post_request.host_comment.present? %>
             <tr>
               <td>
@@ -29,6 +31,7 @@
               </td>
               <td>
                 <%= @post_request.host_comment %>
+                <!--返信コメントを削除するボタン-->
                 <% if @user == current_user %>
                   <%= form_with(model: @post_request, url: user_post_request_path(@user, @post_request), method: :patch, local:true) do |f| %>
                     <%= f.hidden_field :host_comment, value: "" %>
@@ -37,6 +40,7 @@
                 <% end %>
               </td>
               <td>
+                 <!--創作メモに追加するボタン-->
                 <% if @user == current_user %>
                   <%= form_with(model:[@user, @note], url: user_creator_notes_path, local:true) do |f| %>
                     <%= f.hidden_field :comment, value: @post_request.comment %>
@@ -47,6 +51,8 @@
                 <% end %>
               </td>
             </tr>
+          <!--ホストが返信コメントを記入しておらず、ホスト本人がログインしている場合、返信フォームを表示-->
+          <!--ユーザーがホストでないなら何も表示しない-->
           <% elsif @user == current_user %>
             <tr>
               <td>

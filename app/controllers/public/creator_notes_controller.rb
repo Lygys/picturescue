@@ -23,7 +23,8 @@ class Public::CreatorNotesController < ApplicationController
 
   def index
     @user = User.find(params[:user_id])
-    @creator_notes = CreatorNote.where(user_id: @user.id).order(created_at: :desc).page(params[:page]).per(20)
+    creator_notes = CreatorNote.where(user_id: @user.id)
+    @creator_notes = creator_notes.order(created_at: :desc).page(params[:page]).per(20)
   end
 
   def show
@@ -46,7 +47,6 @@ class Public::CreatorNotesController < ApplicationController
       render 'edit'
     end
   end
-
 
   def destroy
     @user = User.find(params[:user_id])

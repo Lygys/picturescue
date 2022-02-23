@@ -9,6 +9,7 @@
           <% @request_box.each do |request| %>
             <tr>
               <td style="width: 15%;">
+                <!--匿名投稿かつリクエスト投稿者本人でないなら、匿名表示-->
                 <% if (request.is_annonymous == true)&&(request.user != current_user) %>
                   <%= image_tag("no_image.jpg", size: "100x100") %>
                   <br><p>匿名さん</p>

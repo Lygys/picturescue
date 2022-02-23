@@ -5,7 +5,7 @@
         <tbody>
           <tr>
             <td style="width: 15%;">
-              <% if (@note.requester != @note.user)&&(@note.is_annonymous == true)&&(@note.requester != current_user) %>
+              <% if show_name_in_anonymity?(@note) %>
                 <%= image_tag("no_image.jpg", size: "100x100") %>
                 <br><p>匿名さん</p>
               <% elsif @note.requester != @note.user %>

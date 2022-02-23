@@ -81,5 +81,4 @@ class Admin::UsersController < ApplicationController
       redirect_to request.referer
     end
   end
-
 end

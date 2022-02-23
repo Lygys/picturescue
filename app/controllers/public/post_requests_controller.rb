@@ -30,7 +30,7 @@ class Public::PostRequestsController < ApplicationController
     @note = CreatorNote.new
   end
 
-  ###リクエストを受けた人のためのアクション
+  # リクエストを受けた側のアクション
   def update
     @user = User.find(params[:user_id])
     @post_request = PostRequest.find_by(id: params[:id], host_id: @user.id)
@@ -42,7 +42,7 @@ class Public::PostRequestsController < ApplicationController
     end
   end
 
-
+  # リクエストを送った側のアクション
   def destroy
     @user = User.find(params[:user_id])
     @post_request = PostRequest.find_by(id: params[:id], host_id: @user.id)
@@ -56,6 +56,7 @@ class Public::PostRequestsController < ApplicationController
     end
   end
 
+  # リクエストを受けた側のアクション
   def reset
     @user = User.find(params[:user_id])
     @post_requests = PostRequest.where(host_id: @user.id)
@@ -66,8 +67,6 @@ class Public::PostRequestsController < ApplicationController
       redirect_to request.referer
     end
   end
-
-
 
   private
 

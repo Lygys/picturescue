@@ -8,6 +8,7 @@ describe 'モデルのテスト' do
       expect(FactoryBot.build(:user)).to be_valid
     end
   end
+
   describe '投稿のテスト' do
     it "有効な投稿内容の場合は保存されるか" do
       user = create(:user)
@@ -26,6 +27,7 @@ describe 'モデルのテスト' do
       end
     end
   end
+
   describe 'コメントのテスト' do
     it "有効なコメント内容の場合は保存されるか" do
       user = create(:user)
@@ -33,12 +35,14 @@ describe 'モデルのテスト' do
       expect(FactoryBot.build(:comment, user_id: user.id, post_id: post.id)).to be_valid
     end
   end
+
   describe 'ツイートのテスト' do
     it "有効なツイート内容の場合は保存されるか" do
       user = create(:user)
       expect(FactoryBot.build(:tweet, user_id: user.id)).to be_valid
     end
   end
+
   describe '創作メモのテスト' do
     it "有効な創作メモト内容の場合は保存されるか" do
       user = create(:user)

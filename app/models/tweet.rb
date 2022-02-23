@@ -13,5 +13,5 @@ class Tweet < ApplicationRecord
     Tweet.where(user_id: followings)
   end
 
-  validates :tweet, presence: true, length: {maximum: 140}
+  validates :tweet, presence: true, length: { maximum: 140 }
 end

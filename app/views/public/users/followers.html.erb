@@ -24,10 +24,8 @@
                 <% end %>
               </td>
               <td class="py-5" style="width: 20%;">
-                <% if @user == current_user %>
-                  <% if current_user.followed_by?(user) %>
-                    <%= render 'public/relationships/block-form', user: user %></td>
-                  <% end %>
+                <% if (@user == current_user)&&(current_user.followed_by?(user)) %>
+                  <%= render 'public/relationships/block-form', user: user %></td>
                 <% end %>
               </td>
               <td style="width: 20%;"></td>
