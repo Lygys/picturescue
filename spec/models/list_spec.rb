@@ -44,7 +44,7 @@ describe 'モデルのテスト' do
   end
 
   describe '創作メモのテスト' do
-    it "有効な創作メモト内容の場合は保存されるか" do
+    it "有効な創作メモと内容の場合は保存されるか" do
       user = create(:user)
       expect(FactoryBot.build(:creator_note, user_id: user.id, requester_id: user.id)).to be_valid
     end
