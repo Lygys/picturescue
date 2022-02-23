@@ -1,5 +1,4 @@
-### タイトル
-picturescue
+# picturescue
 
 ## サイト概要
 画像投稿をメインとしたSNSサイトです。
@@ -20,9 +19,6 @@ picturescue
 
 ### 主な利用シーン
 クリエイターの作品を共有・鑑賞したい時や、クリエイターと交流したい時。
-
-## 設計書
-<...>
 
 ## チャレンジ要素一覧
 https://docs.google.com/spreadsheets/d/1c3CObaMsqMH-clctKQ_lTRQnhsKrHi4wtj6TVRC_NSc/edit#gid=0

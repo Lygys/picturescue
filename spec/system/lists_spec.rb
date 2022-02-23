@@ -2,6 +2,7 @@
 
 require 'rails_helper'
 
+
 describe '新規登録と新規投稿のテスト' do
   describe 'トップ画面(root_path)のテスト' do
     before do
@@ -48,10 +49,8 @@ describe '新規登録と新規投稿のテスト' do
   describe "新規登録画面(new_post_path)のテスト" do
     before do
       @user = create(:user)
-      visit new_user_session_path
       sign_in @user
       visit new_post_path
-      sign_in @user
     end
 
     context '表示の確認' do
@@ -76,12 +75,15 @@ describe '新規登録と新規投稿のテスト' do
 
   describe '詳細画面のテスト' do
     before do
+      @user = create(:user)
+      @post = create(:post, user_id: @user.id)
+      sign_in @user
       visit post_path(@post)
     end
 
     context '表示の確認' do
       it '削除リンクが存在しているか' do
-        expect(page).to have_link 'Destroy'
+        expect(page).to have_link 'Delete'
       end
       it '編集リンクが存在しているか' do
         expect(page).to have_link 'Edit'
@@ -90,15 +92,18 @@ describe '新規登録と新規投稿のテスト' do
 
     context 'リンクの遷移先の確認' do
       it '編集の遷移先は編集画面か' do
-        click_button 'Edit'
-        expect(current_path).to edit_post_path(@post)
+        click_link 'Edit'
+        expect(page).to have_current_path edit_post_path(@post)
       end
     end
   end
 
   describe 'ユーザー詳細画面のテスト' do
     before do
-      visit user_path(user)
+      @user = create(:user)
+      @post = create(:post, user_id: @user.id)
+      sign_in @user
+      visit user_path(@user)
     end
 
     context '表示の確認' do
@@ -111,6 +116,9 @@ describe '新規登録と新規投稿のテスト' do
 
   describe '編集画面のテスト' do
     before do
+      @user = create(:user)
+      @post = create(:post, user_id: @user.id)
+      sign_in @user
       visit edit_post_path(@post)
     end
 
@@ -120,7 +128,7 @@ describe '新規登録と新規投稿のテスト' do
         expect(page).to have_field 'post[body]', with: @post.body
       end
       it '保存ボタンが表示される' do
-        expect(page).to have_button 'Edit Post'
+        expect(page).to have_button 'Update Post'
       end
     end
 
