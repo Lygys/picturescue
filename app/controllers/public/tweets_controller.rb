@@ -12,10 +12,11 @@ class Public::TweetsController < ApplicationController
     end
   end
 
-  #current_userのタイムライン
+  # current_userのタイムライン
   def index
     @tweet = Tweet.new
-    @tweets = Tweet.timeline(current_user).order(created_at: :desc).limit(500).page(params[:page]).per(50)
+    tweets = Tweet.timeline(current_user)
+    @tweets = tweets.order(created_at: :desc).limit(500).page(params[:page]).per(50)
   end
 
   def show
@@ -36,6 +37,7 @@ class Public::TweetsController < ApplicationController
   end
 
   private
+
   def tweet_params
     params.require(:tweet).permit(:tweet)
   end

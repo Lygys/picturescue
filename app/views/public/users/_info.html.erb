@@ -10,7 +10,9 @@
 	    </div>
 	   </th>
   </tr>
+  <!--ブロックされていないならお題箱を表示-->
   <% if user.is_blocked == false %>
+    <!--本人のinfoなら創作メモ、お題箱のステータス管理とフォローリクエストの認証を表示-->
     <% if user == current_user %>
       <tr>
         <th><%= link_to "創作メモ", user_creator_notes_path(user), class: "btn btn-primary my-3" %></th>
@@ -34,6 +36,7 @@
         <th>follow request</th>
         <th class="py-4"><%= link_to user.potential_followers.count, potential_followers_user_path(user) %></th>
       </tr>
+    <!--相互フォローは公開されている創作メモとお題箱を閲覧できる-->
     <% elsif (current_user.following?(user))&&(user.following?(current_user)) %>
       <% if user.creator_note_is_private == false %>
         <tr>
@@ -53,6 +56,7 @@
         <th>relationship</th>
         <th>相互フォロー</th>
       </tr>
+    <!--その人をフォローしているなら、公開されている創作メモとお題箱を閲覧できる-->
     <% elsif current_user.following?(user) %>
       <% if user.creator_note_is_private == false %>
         <tr>
@@ -72,12 +76,14 @@
         <th>relationship</th>
         <th>フォロー中</th>
       </tr>
+    <!--フォローしていない人はリクエストが表示される-->
     <% else %>
       <tr>
         <th class="pt-3">follow request</th>
         <th class="py-4"><%= render 'public/follow_requests/follow-form', user: user %></th>
       </tr>
     <% end %>
+  <!--管理者にブロックされているユーザーとはコミュニケーションできない-->
   <% else %>
     <tr>
       <th>ステータス</th>

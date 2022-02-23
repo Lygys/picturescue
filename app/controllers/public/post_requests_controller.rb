@@ -30,7 +30,7 @@ class Public::PostRequestsController < ApplicationController
     @note = CreatorNote.new
   end
 
-  ###リクエストを受けた人のためのアクション
+  # ##リクエストを受けた人のためのアクション
   def update
     @user = User.find(params[:user_id])
     @post_request = PostRequest.find_by(id: params[:id], host_id: @user.id)
@@ -41,7 +41,6 @@ class Public::PostRequestsController < ApplicationController
       redirect_to request.referer
     end
   end
-
 
   def destroy
     @user = User.find(params[:user_id])
@@ -66,8 +65,6 @@ class Public::PostRequestsController < ApplicationController
       redirect_to request.referer
     end
   end
-
-
 
   private
 

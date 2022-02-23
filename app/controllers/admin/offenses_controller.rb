@@ -29,6 +29,7 @@ class Admin::OffensesController < ApplicationController
   end
 
   private
+
   def offense_params
     params.require(:offense).permit(:name)
   end

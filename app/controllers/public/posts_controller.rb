@@ -49,7 +49,6 @@ class Public::PostsController < ApplicationController
     end
   end
 
-
   def bookmarking_users
     @post = Post.find(params[:id])
     @users = @post.bookmarking_users.page(params[:page]).per(20)
@@ -67,5 +66,4 @@ class Public::PostsController < ApplicationController
       redirect_to user_path(current_user)
     end
   end
-
 end

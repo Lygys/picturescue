@@ -4,7 +4,5 @@ class Report < ApplicationRecord
   belongs_to :user
   belongs_to :offender, class_name: 'User'
 
-
   validates :comment, presence: true
-
 end
