@@ -39,7 +39,7 @@
         <th class="py-4"><%= link_to user.potential_followers.count, potential_followers_user_path(user) %></th>
       </tr>
     <!--相互フォローは公開されている創作メモとお題箱を閲覧できる-->
-    <% elsif (current_user.following?(user))&&(user.following?(current_user)) %>
+    <% elsif (current_user.following?(user)) && (user.following?(current_user)) %>
       <!--創作メモは公開中のみ閲覧可能-->
       <% if user.creator_note_is_private == false %>
         <tr>

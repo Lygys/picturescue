@@ -18,6 +18,10 @@ FactoryBot.define do
     tweet { Faker::Lorem.characters(number: 50) }
   end
 
+  factory :post_request do
+    comment { Faker::Lorem.characters(number: 50) }
+  end
+
   factory :creator_note do
     comment { Faker::Lorem.characters(number: 50) }
   end
