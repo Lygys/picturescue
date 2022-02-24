@@ -1,6 +1,7 @@
 class Public::PostRequestsController < ApplicationController
   before_action :authenticate_user!
   before_action :ensure_correct_user, only: [:update, :reset]
+  before_action :ensure_host_status, only: [:new, :create]
 
   def new
     @post_request = PostRequest.new
@@ -77,6 +78,13 @@ class Public::PostRequestsController < ApplicationController
   def ensure_correct_user
     @user = User.find(params[:user_id])
     unless @user == current_user
+      redirect_to user_path(current_user)
+    end
+  end
+
+  def ensure_host_status
+    @user = User.find(params[:user_id])
+    if @user.is_open_to_requests == false
       redirect_to user_path(current_user)
     end
   end

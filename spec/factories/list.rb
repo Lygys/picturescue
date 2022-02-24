@@ -21,4 +21,13 @@ FactoryBot.define do
   factory :creator_note do
     comment { Faker::Lorem.characters(number: 50) }
   end
+
+  factory :relationship do
+  end
+
+  factory :bookmark do
+  end
+
+  factory :favorite do
+  end
 end

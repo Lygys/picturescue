@@ -1,6 +1,7 @@
 class Public::CreatorNotesController < ApplicationController
   before_action :authenticate_user!
   before_action :ensure_correct_user, only: [:new, :create, :edit, :update, :destroy, :reset]
+  before_action :ensure_host_status, only: [:index, :show]
 
   def new
     @note = CreatorNote.new
@@ -79,6 +80,13 @@ class Public::CreatorNotesController < ApplicationController
   def ensure_correct_user
     @user = User.find(params[:user_id])
     unless @user == current_user
+      redirect_to user_path(current_user)
+    end
+  end
+
+  def ensure_host_status
+    @user = User.find(params[:user_id])
+    if @user.creator_note_is_private == true
       redirect_to user_path(current_user)
     end
   end
