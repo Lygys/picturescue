@@ -21,9 +21,4 @@ FactoryBot.define do
   factory :creator_note do
     comment { Faker::Lorem.characters(number: 50) }
   end
-
-  factory :admin do
-    email ENV["email"]
-    password ENV["password"]
-  end
 end

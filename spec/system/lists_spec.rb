@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 
-describe '新規登録と新規投稿のテスト' do
+describe '新規登録とログインのテスト' do
   describe 'トップ画面(root_path)のテスト' do
     before do
       visit root_path
@@ -46,7 +46,34 @@ describe '新規登録と新規投稿のテスト' do
     end
   end
 
-  describe "新規登録画面(new_post_path)のテスト" do
+  describe "ユーザーログイン画面(new_user_session_path)のテスト" do
+    before do
+      visit new_user_session_path
+      @user = create(:user)
+    end
+
+    context '表示の確認' do
+      it 'new_user_session_pathが"root/user/sign_in"であるか' do
+        expect(current_path).to have_content('/user/sign_in')
+      end
+      it '新規登録ボタンが表示されているか' do
+        expect(page).to have_button 'Log in'
+      end
+    end
+
+    context '登録処理のテスト' do
+      it '登録後のリダイレクト先は正しいか' do
+        fill_in 'user[email]', with: @user.email
+        fill_in 'user[password]', with: @user.password
+        click_button 'Log in'
+        expect(page).to have_current_path user_path(User.last.id.to_s)
+      end
+    end
+  end
+end
+
+describe '新規投稿、コメントとツイートのテスト' do
+  describe "新規投稿画面(new_post_path)のテスト" do
     before do
       @user = create(:user)
       sign_in @user
@@ -141,4 +168,66 @@ describe '新規登録と新規投稿のテスト' do
       end
     end
   end
+
+  # コメント登録は非同期なので、現状テストコードを実装できない
+
+  describe 'コメント（自作）閲覧のテスト' do
+    before do
+      @user = create(:user)
+      @post = create(:post, user_id: @user.id)
+      @comment = create(:comment, user_id: @user.id, post_id: @post.id)
+      sign_in @user
+      visit post_path(@post)
+    end
+
+    context 'コメントに関するテスト' do
+      it 'コメント内容が表示される' do
+        expect(page).to have_content @comment.comment
+      end
+      it '削除ボタンが表示される' do
+        expect(page).to have_link 'Destroy'
+      end
+    end
+  end
+
+ describe 'コメント（他人）閲覧のテスト' do
+    before do
+      @user1 = create(:user)
+      @user2 = create(:user)
+      @post = create(:post, user_id: @user2.id)
+      @comment = create(:comment, user_id: @user1.id, post_id: @post.id)
+      sign_in @user2
+      visit post_path(@post)
+    end
+
+    context 'コメントに関するテスト' do
+      it 'コメント内容が表示される' do
+        expect(page).to have_content @comment.comment
+      end
+      it '削除ボタンが表示されない' do
+        expect(page).to_not have_link 'Destroy'
+      end
+    end
+  end
+
+  describe 'ツイートのテスト' do
+    before do
+      @user = create(:user)
+      sign_in @user
+      visit tweets_path
+    end
+
+    context 'ツイート投稿に関するテスト' do
+      it 'ツイートボタンが表示される' do
+        expect(page).to have_button 'Tweet'
+      end
+      it '投稿後のリダイレクト先は正しいか' do
+        @tweet = FactoryBot.build(:tweet)
+        fill_in 'tweet[tweet]', with: @tweet.tweet
+        click_button 'Tweet'
+        expect(page).to have_current_path tweets_path
+      end
+    end
+  end
+
 end
