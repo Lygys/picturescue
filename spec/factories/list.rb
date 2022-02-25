@@ -34,4 +34,13 @@ FactoryBot.define do
 
   factory :favorite do
   end
+
+  factory :report do
+    comment { Faker::Lorem.characters(number: 50) }
+  end
+
+  factory :admin do
+    email { Faker::Internet.email }
+    password { Faker::Lorem.characters(number: 10) }
+  end
 end

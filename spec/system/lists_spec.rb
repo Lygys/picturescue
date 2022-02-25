@@ -601,6 +601,27 @@ describe 'お題箱とクリエイターノートのテスト' do
     end
   end
 
+  describe "非フォローはお題箱にアクセスできないことのテスト" do
+    before do
+      @user1 = create(:user)
+      @user2 = create(:user, is_open_to_requests: true)
+      sign_in @user1
+      visit user_path(@user2)
+    end
+
+    context 'お題箱への新規投稿ができない' do
+      it 'お題箱の新規投稿リンクがない' do
+        expect(page).to_not have_link "Post"
+      end
+    end
+    context 'お題箱の閲覧ができない' do
+      it 'お題箱の一覧画面リンクがない' do
+        expect(page).to_not have_link "お題箱"
+      end
+    end
+  end
+
+
   describe "お題箱(ホスト側)のテスト" do
     before do
       @user1 = create(:user)
@@ -622,16 +643,22 @@ describe 'お題箱とクリエイターノートのテスト' do
       end
     end
 
-    context 'お題箱の返信ができる' do
+    context 'リクエストに返信ができるが、削除はできない' do
       it 'お題箱の詳細画面には返信ボタンがある' do
         expect(page).to have_button "返信"
       end
-      it 'フォームに記入し、返信を押すと、返信が表示される' do
+      it 'フォームに記入し、返信を押すと、返信が表示され、その後返信を削除すると再度フォームが表示される' do
         @host_comment = Faker::Lorem.characters(number: 50)
         fill_in 'post_request[host_comment]', with: @host_comment
         click_button "返信"
         expect(page).to have_content @host_comment
         expect(page).to have_button "返信を削除"
+        click_button "返信を削除"
+        expect(page).to have_field 'post_request[host_comment]', with: ''
+      end
+      it 'リクエスト詳細画面に削除リンクがない' do
+        visit user_post_request_path(@user2, @post_request1)
+        expect(page).to_not have_link "Destroy"
       end
     end
 
@@ -666,19 +693,90 @@ describe 'お題箱とクリエイターノートのテスト' do
   describe "創作メモ(ホスト側)のテスト" do
     before do
       @user1 = create(:user)
+      @creator_note1 = create(:creator_note, user_id: @user1.id, requester_id: @user1.id)
       sign_in @user1
-      visit user_post_request_path(@user1)
+      visit user_creator_notes_path(@user1)
     end
 
-    context '' do
+    context '創作メモ閲覧のテスト' do
       it '創作メモ登録ボタンがある' do
-        have_link ""
+        expect(page).to have_link "＋"
       end
-      it 'リクエスト詳細画面にはお題箱の一覧画面リンクがある' do
+      it '一覧画面が正しく表示できている' do
+        expect(page).to have_content @creator_note1.comment
+      end
+      it '一覧画面から詳細画面に遷移できる' do
+        expect(page).to have_link "Show"
+        click_link "Show"
+        expect(page).to have_current_path user_creator_note_path(@user1, @creator_note1)
+      end
+      it '詳細画面から一覧画面に遷移できる' do
+        visit user_creator_note_path(@user1, @creator_note1)
+        expect(page).to have_link "Creator Notes"
+        click_link "Creator Notes"
+        expect(page).to have_current_path user_creator_notes_path(@user1)
+      end
+      it '詳細画面に編集リンクがある' do
+        visit user_creator_note_path(@user1, @creator_note1)
+        expect(page).to have_link "Edit"
+      end
+      it '詳細画面に削除リンクがある' do
+        visit user_creator_note_path(@user1, @creator_note1)
+        expect(page).to have_link "Destroy"
+      end
+      it '創作メモ登録ボタンから新規創作メモを投稿でき、登録後一覧画面に遷移する' do
+        click_link "＋"
+        @creator_note2 = FactoryBot.build(:creator_note)
+        fill_in 'creator_note[comment]', with: @creator_note2.comment
+        expect(page).to have_button "送信"
+        click_button "送信"
+        expect(page).to have_current_path user_creator_notes_path(@user1)
+        expect(page).to have_content @creator_note1.comment
+        expect(page).to have_content @creator_note2.comment
+      end
+    end
+  end
 
+  describe "創作メモ(公開・他人閲覧)のテスト" do
+    before do
+      @user1 = create(:user)
+      @user2 = create(:user)
+      @relationship = create(:relationship, user_id: @user1.id, follow_id: @user2.id)
+      @creator_note1 = create(:creator_note, user_id: @user2.id, requester_id: @user2.id)
+      @creator_note2 = create(:creator_note, user_id: @user2.id, requester_id: @user1.id)
+      sign_in @user1
+      visit user_path(@user2)
+    end
+
+    context '創作メモへのアクセスができるが、新規作成はできない' do
+      it '創作メモの一覧画面リンクがある' do
+        expect(page).to have_link "創作メモ"
+      end
+      it '創作メモの新規投稿リンクがない' do
+        click_link "創作メモ"
+        expect(page).to_not have_link "＋"
+      end
+      it '詳細画面に編集リンクがない' do
+        visit user_creator_note_path(@user2, @creator_note1)
+        expect(page).to_not have_link "Edit"
+      end
+      it '詳細画面に削除リンクがない' do
+        visit user_creator_note_path(@user2, @creator_note1)
+        expect(page).to_not have_link "Destroy"
       end
     end
 
+    context 'リクエスト主が自分であっても創作メモは変更できない' do
+      it '詳細画面に編集リンクがない' do
+        visit user_creator_note_path(@user2, @creator_note2)
+        expect(page).to_not have_link "Edit"
+      end
+      it '詳細画面に削除リンクがない' do
+        visit user_creator_note_path(@user2, @creator_note2)
+        expect(page).to_not have_link "Destroy"
+      end
+    end
+  end
 
   describe "創作メモ(非公開)のテスト" do
     before do
@@ -692,6 +790,151 @@ describe 'お題箱とクリエイターノートのテスト' do
     context '創作メモへのアクセスができない' do
       it 'お題箱の新規投稿リンクがない' do
         expect(page).to_not have_link "創作メモ"
+      end
+    end
+  end
+end
+
+describe 'ユーザー報告と管理者のテスト' do
+  describe '管理者ログインのテスト' do
+    before do
+      @admin = create(:admin)
+      visit new_admin_session_path
+    end
+
+    context '管理者ログインの確認' do
+      it 'ログインができるかどうか' do
+        fill_in 'admin[email]', with: @admin.email
+        fill_in 'admin[password]', with: @admin.password
+        expect(page).to have_button "Log in"
+        click_button "Log in"
+        expect(page).to have_current_path admin_users_path
+      end
+    end
+  end
+
+  describe '報告のテスト' do
+    before do
+      @user1 = create(:user)
+      @user2 = create(:user)
+      @admin = create(:admin)
+      sign_in @user1
+      visit user_path(@user2)
+    end
+
+    context '表示の確認' do
+      it '報告リンクが表示されているか' do
+        expect(page).to have_link "報告"
+      end
+    end
+
+    context '報告の新規登録の確認' do
+      it '報告が表示されているか' do
+        click_link "報告"
+        @report = FactoryBot.build(:report)
+        fill_in 'report[comment]', with: @report.comment
+        expect(page).to have_button "送信"
+        click_button "送信"
+        sign_out @user1
+        sign_in @admin
+        visit admin_users_path
+        expect(page).to have_content @user2.name
+        expect(@user2.recieved_reports.count).to eq 1
+        expect(page).to have_link "Show"
+        click_link "Show"
+        expect(page).to have_content @report.comment
+      end
+    end
+  end
+
+  describe '管理者の制裁行動のテスト' do
+    before do
+      @user1 = create(:user)
+      @user2 = create(:user)
+      @admin = create(:admin)
+      @report1 = create(:report, offender_id: @user1.id, user_id: @user2.id)
+      @post1 = create(:post, user_id: @user1.id)
+      @post2 = create(:post, user_id: @user1.id)
+      @post3 = create(:post, user_id: @user2.id)
+      @comment = create(:comment, user_id: @user1.id, post_id: @post3.id)
+      @tweet = create(:tweet, user_id: @user1.id)
+      sign_in @admin
+      visit admin_user_path(@user1)
+    end
+
+    context '表示の確認' do
+      it '報告ユーザー一覧リンクが表示されているか' do
+        expect(page).to have_link "ユーザー一覧"
+      end
+      it '投稿一覧リンクが表示されているか' do
+        expect(page).to have_link "投稿一覧"
+      end
+    end
+
+    context '投稿全削除の確認' do
+      it '投稿全削除ボタンが存在しているか' do
+        expect(page).to have_link "投稿全削除"
+      end
+      it '投稿全削除ボタンを押すと全ての作品が消えるか？' do
+        click_link "投稿全削除"
+        expect(@user1.posts.count).to eq 0
+      end
+    end
+
+    context 'コメント全削除の確認' do
+      it 'コメント全削除ボタンが存在しているか' do
+        expect(page).to have_link "コメント全削除"
+      end
+      it 'コメント全削除ボタンを押すと全てのコメントが消えるか？' do
+        click_link "コメント全削除"
+        expect(@user1.comments.count).to eq 0
+      end
+    end
+
+    context 'ツイート全削除の確認' do
+      it 'ツイート全削除ボタンが存在しているか' do
+        expect(page).to have_link "ツイート全削除"
+      end
+      it 'ツイート全削除ボタンを押すと全てのツイートが消えるか？' do
+        click_link "ツイート全削除"
+        expect(@user1.tweets.count).to eq 0
+      end
+    end
+
+    context 'レポート処理の確認' do
+      it '処理済にしたレポートはリセットボタンを押せば消え、未処理のレポートは消えないか？' do
+        @report2 = create(:report, offender_id: @user1.id, user_id: @user2.id, is_finished: true)
+        expect(page).to have_link "未処理"
+        expect(page).to have_content "処理済"
+        expect(page).to have_link "処理済報告リセット"
+        click_link "処理済報告リセット"
+        expect(@user1.recieved_reports.count).to eq 1
+        expect(page).to have_content @report1.comment
+        expect(page).to_not have_content @report2.comment
+      end
+    end
+
+    context '投稿各削除の確認' do
+      it '投稿全削除ボタンが存在しているか' do
+        visit admin_user_posts_path(@user1)
+        expect(page).to have_link ""
+      end
+      it '投稿全削除ボタンを押すと全ての作品が消えるか？' do
+        click_link "投稿全削除"
+        expect(@user1.posts.count).to eq 0
+      end
+    end
+  end
+end
+
+describe '検索機能のテスト' do
+  describe '作品検索のテスト' do
+    before do
+
+    end
+
+    context '管理者ログインの確認' do
+      it 'ログインができるかどうか' do
       end
     end
   end
