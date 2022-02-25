@@ -6,7 +6,7 @@
           <tr>
             <td style="width: 15%;">
               <!--匿名投稿かつリクエスト投稿者本人でないなら、匿名表示-->
-              <% if (@post_request.is_annonymous == true)&&(@post_request.user != current_user) %>
+              <% if (@post_request.is_annonymous == true) && (@post_request.user != current_user) %>
                 <%= image_tag("no_image.jpg", size: "100x100") %>
                 <br><p>匿名さん</p>
               <% else %>

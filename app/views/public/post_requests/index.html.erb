@@ -1,7 +1,7 @@
 <div class='container'>
    <div class='row'>
     <div class='col-lg-9'>
-      <% if (@user == current_user)&&(@request_box.present?) %>
+      <% if (@user == current_user) && (@request_box.present?) %>
         <%= link_to "お題箱をリセット", reset_user_post_requests_path(@user), method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-danger mx-3" %>
       <% end %>
       <table class="table my-4">
@@ -10,7 +10,7 @@
             <tr>
               <td style="width: 15%;">
                 <!--匿名投稿かつリクエスト投稿者本人でないなら、匿名表示-->
-                <% if (request.is_annonymous == true)&&(request.user != current_user) %>
+                <% if (request.is_annonymous == true) && (request.user != current_user) %>
                   <%= image_tag("no_image.jpg", size: "100x100") %>
                   <br><p>匿名さん</p>
                 <% else %>
