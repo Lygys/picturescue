@@ -18,12 +18,42 @@ FactoryBot.define do
     tweet { Faker::Lorem.characters(number: 50) }
   end
 
+  factory :post_request do
+    comment { Faker::Lorem.characters(number: 50) }
+  end
+
   factory :creator_note do
     comment { Faker::Lorem.characters(number: 50) }
   end
 
+  factory :relationship do
+  end
+
+  factory :bookmark do
+  end
+
+  factory :favorite do
+  end
+
+  factory :report do
+    comment { Faker::Lorem.characters(number: 50) }
+  end
+
   factory :admin do
-    email ENV["email"]
-    password ENV["password"]
+    email { Faker::Internet.email }
+    password { Faker::Lorem.characters(number: 10) }
+  end
+
+  factory :tag do
+  end
+
+  factory :post_tag do
+  end
+
+  factory :offense do
+    name { Faker::Lorem.characters(number: 10) }
+  end
+
+  factory :report_offense do
   end
 end

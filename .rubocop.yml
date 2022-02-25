@@ -15,3 +15,5 @@ AllCops:
     - 'path/ruby'
     - 'app/controllers/public/users_controller.rb'
     - 'app/models/user.rb'
+    - 'app/helpers/public/creator_notes_helper.rb'
+    - 'spec/system/lists5_spec.rb'
