@@ -43,4 +43,17 @@ FactoryBot.define do
     email { Faker::Internet.email }
     password { Faker::Lorem.characters(number: 10) }
   end
+
+  factory :tag do
+  end
+
+  factory :post_tag do
+  end
+
+  factory :offense do
+    name { Faker::Lorem.characters(number: 10) }
+  end
+
+  factory :report_offense do
+  end
 end

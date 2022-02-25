@@ -6,7 +6,7 @@
         <div class="my-3">
         <% if user_signed_in? %>
           <%= form_with url: search_path, method: :get, local: true do |f| %>
-            <%= f.text_field :content, class: "col-lg-6 mx-3" %>
+            <%= f.text_field :content, id: "search-content" ,class: "col-lg-6 mx-3" %>
             <%= f.select :model, options_for_select({ "Post" => "post", "User" => "user", "Tag" => "tag" }) %>
             <%= f.select :method, options_for_select({ "部分一致" => "partial", "完全一致" => "perfect" }) %>
             <%= f.submit '検索', class: "btn btn-sm btn-success" %>
