@@ -7,7 +7,10 @@
           <% end %>
           <br><%= link_to tweet.user.name, tweets_user_path(tweet.user) %>
       </td>
-      <td style="width: 75%"><%= tweet.tweet %></td>
+      <td style="width: 75%">
+        <p class="lead"><%= tweet.tweet %></p>
+        <p class="pt-3"><%= tweet.created_at.strftime("%Y/%m/%d %H:%M") %></p>
+      </td>
       <% if tweet.user == current_user %>
         <td style="width: 10%">
           <% if tweet.favorites.present? %>
